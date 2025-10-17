@@ -978,22 +978,28 @@ function createMemoryBoard() {
     board.innerHTML = '';
     board.style.gridTemplateColumns = `repeat(${difficulty.cols}, 1fr)`;
     
-    // 이모지 심볼 생성
-    let symbols = [];
+    // 색상 심볼 생성
+    const colors = [
+        '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7',
+        '#DDA0DD', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E9',
+        '#F8C471', '#82E0AA', '#F1948A', '#85C1E9', '#D7BDE2'
+    ];
+    
+    let colorSymbols = [];
     for (let i = 0; i < pairs; i++) {
-        const emoji = String.fromCodePoint(0x1F600 + i); // 😀부터 시작
-        symbols.push(emoji, emoji);
+        const color = colors[i % colors.length];
+        colorSymbols.push(color, color);
     }
     
-    // 심볼 셔플
-    symbols = symbols.sort(() => Math.random() - 0.5);
-    memoryGameState.gameBoard = symbols;
+    // 색상 셔플
+    colorSymbols = colorSymbols.sort(() => Math.random() - 0.5);
+    memoryGameState.gameBoard = colorSymbols;
     
     // 카드 생성
-    symbols.forEach((symbol, index) => {
+    colorSymbols.forEach((color, index) => {
         const card = document.createElement('div');
         card.className = 'memory-card';
-        card.dataset.symbol = symbol;
+        card.dataset.color = color;
         card.dataset.index = index;
         card.addEventListener('click', () => flipMemoryCard(card));
         board.appendChild(card);
@@ -1008,14 +1014,15 @@ function flipMemoryCard(card) {
         return;
     }
     
-    card.textContent = card.dataset.symbol;
+    // 카드 색상 변경
+    card.style.backgroundColor = card.dataset.color;
     card.classList.add('flipped');
     memoryGameState.flippedCards.push(card);
     
     if (memoryGameState.flippedCards.length === 2) {
         const [first, second] = memoryGameState.flippedCards;
         
-        if (first.dataset.symbol === second.dataset.symbol) {
+        if (first.dataset.color === second.dataset.color) {
             // 매치 성공
             first.classList.add('matched');
             second.classList.add('matched');
@@ -1038,8 +1045,8 @@ function flipMemoryCard(card) {
             setTimeout(() => {
                 first.classList.remove('flipped', 'wrong');
                 second.classList.remove('flipped', 'wrong');
-                first.textContent = '';
-                second.textContent = '';
+                first.style.backgroundColor = '';
+                second.style.backgroundColor = '';
                 memoryGameState.flippedCards = [];
                 
                 // 턴 전환 (vs 모드에서만)

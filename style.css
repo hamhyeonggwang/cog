@@ -1241,6 +1241,20 @@ header h1 {
     border: 3px solid rgba(255,255,255,0.3);
     user-select: none;
     touch-action: manipulation;
+    position: relative;
+    overflow: hidden;
+}
+
+.memory-card::before {
+    content: '?';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2rem;
+    color: white;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
 }
 
 .memory-card:hover {
@@ -1249,24 +1263,38 @@ header h1 {
 }
 
 .memory-card.flipped {
-    background: linear-gradient(135deg, #ffd966, #f4a460);
-    color: #b45f06;
     transform: scale(1.05);
-    box-shadow: 0 8px 25px rgba(255, 217, 102, 0.4);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.memory-card.flipped::before {
+    content: '';
 }
 
 .memory-card.matched {
-    background: linear-gradient(135deg, #93c47d, #7cb342);
-    color: white;
     transform: scale(1.1);
-    box-shadow: 0 8px 25px rgba(147, 196, 125, 0.4);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
     animation: memoryMatch 0.6s ease-in-out;
+    border: 3px solid #4CAF50;
+}
+
+.memory-card.matched::before {
+    content: '✓';
+    color: white;
+    font-size: 1.5rem;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
 }
 
 .memory-card.wrong {
-    background: linear-gradient(135deg, #e06666, #d32f2f);
-    color: white;
     animation: memoryWrong 0.6s ease-in-out;
+    border: 3px solid #e06666;
+}
+
+.memory-card.wrong::before {
+    content: '✗';
+    color: white;
+    font-size: 1.5rem;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
 }
 
 @keyframes memoryMatch {
@@ -1452,6 +1480,15 @@ header h1 {
         height: 100px;
         font-size: 2.5rem;
         border-radius: 20px;
+    }
+    
+    .memory-card::before {
+        font-size: 2.5rem;
+    }
+    
+    .memory-card.matched::before,
+    .memory-card.wrong::before {
+        font-size: 2rem;
     }
     
     .memory-game-info {
