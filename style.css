@@ -1313,12 +1313,12 @@ header h1 {
 .memory-card {
     width: 80px;
     height: 80px;
-    background: linear-gradient(135deg, #D2691E, #CD853F);
+    background: linear-gradient(135deg, #8B4513, #A0522D);
     border-radius: 15px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 2rem;
+    font-size: 2.5rem;
     font-weight: bold;
     color: transparent;
     cursor: pointer;
@@ -1332,12 +1332,12 @@ header h1 {
 }
 
 .memory-card::before {
-    content: '?';
+    content: '🂠';
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 2rem;
+    font-size: 2.5rem;
     color: white;
     font-weight: bold;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
@@ -1351,6 +1351,8 @@ header h1 {
 .memory-card.flipped {
     transform: scale(1.05);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(135deg, #F5F5DC, #DEB887);
+    color: #8B4513;
 }
 
 .memory-card.flipped::before {
@@ -1362,11 +1364,13 @@ header h1 {
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
     animation: memoryMatch 0.6s ease-in-out;
     border: 3px solid #4CAF50;
+    background: linear-gradient(135deg, #90EE90, #98FB98);
+    color: #2E8B57;
 }
 
 .memory-card.matched::before {
     content: '✓';
-    color: white;
+    color: #2E8B57;
     font-size: 1.5rem;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
 }
@@ -1374,11 +1378,13 @@ header h1 {
 .memory-card.wrong {
     animation: memoryWrong 0.6s ease-in-out;
     border: 3px solid #e06666;
+    background: linear-gradient(135deg, #FFB6C1, #FFA0A0);
+    color: #DC143C;
 }
 
 .memory-card.wrong::before {
     content: '✗';
-    color: white;
+    color: #DC143C;
     font-size: 1.5rem;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
 }
@@ -1812,17 +1818,17 @@ header h1 {
     .memory-card {
         width: 100px;
         height: 100px;
-        font-size: 2.5rem;
+        font-size: 3rem;
         border-radius: 20px;
     }
     
     .memory-card::before {
-        font-size: 2.5rem;
+        font-size: 3rem;
     }
     
     .memory-card.matched::before,
     .memory-card.wrong::before {
-        font-size: 2rem;
+        font-size: 2.5rem;
     }
     
     .memory-game-info {

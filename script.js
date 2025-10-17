@@ -983,28 +983,28 @@ function createMemoryBoard() {
     board.innerHTML = '';
     board.style.gridTemplateColumns = `repeat(${difficulty.cols}, 1fr)`;
     
-    // 색상 심볼 생성
-    const colors = [
-        '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7',
-        '#DDA0DD', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E9',
-        '#F8C471', '#82E0AA', '#F1948A', '#85C1E9', '#D7BDE2'
+    // 화투 이미지 심볼 생성
+    const hwatuSymbols = [
+        '🀄', '🀅', '🀆', '🀇', '🀈', '🀉', '🀊', '🀋', '🀌', '🀍',
+        '🀎', '🀏', '🀐', '🀑', '🀒', '🀓', '🀔', '🀕', '🀖', '🀗',
+        '🀘', '🀙', '🀚', '🀛', '🀜', '🀝', '🀞', '🀟', '🀠', '🀡'
     ];
     
-    let colorSymbols = [];
+    let hwatuSymbolsList = [];
     for (let i = 0; i < pairs; i++) {
-        const color = colors[i % colors.length];
-        colorSymbols.push(color, color);
+        const symbol = hwatuSymbols[i % hwatuSymbols.length];
+        hwatuSymbolsList.push(symbol, symbol);
     }
     
-    // 색상 셔플
-    colorSymbols = colorSymbols.sort(() => Math.random() - 0.5);
-    memoryGameState.gameBoard = colorSymbols;
+    // 화투 심볼 셔플
+    hwatuSymbolsList = hwatuSymbolsList.sort(() => Math.random() - 0.5);
+    memoryGameState.gameBoard = hwatuSymbolsList;
     
     // 카드 생성
-    colorSymbols.forEach((color, index) => {
+    hwatuSymbolsList.forEach((symbol, index) => {
         const card = document.createElement('div');
         card.className = 'memory-card';
-        card.dataset.color = color;
+        card.dataset.symbol = symbol;
         card.dataset.index = index;
         card.addEventListener('click', () => flipMemoryCard(card));
         board.appendChild(card);
@@ -1019,15 +1019,15 @@ function flipMemoryCard(card) {
         return;
     }
     
-    // 카드 색상 변경
-    card.style.backgroundColor = card.dataset.color;
+    // 화투 심볼 표시
+    card.textContent = card.dataset.symbol;
     card.classList.add('flipped');
     memoryGameState.flippedCards.push(card);
     
     if (memoryGameState.flippedCards.length === 2) {
         const [first, second] = memoryGameState.flippedCards;
         
-        if (first.dataset.color === second.dataset.color) {
+        if (first.dataset.symbol === second.dataset.symbol) {
             // 매치 성공
             first.classList.add('matched');
             second.classList.add('matched');
@@ -1050,8 +1050,8 @@ function flipMemoryCard(card) {
             setTimeout(() => {
                 first.classList.remove('flipped', 'wrong');
                 second.classList.remove('flipped', 'wrong');
-                first.style.backgroundColor = '';
-                second.style.backgroundColor = '';
+                first.textContent = '';
+                second.textContent = '';
                 memoryGameState.flippedCards = [];
                 
                 // 턴 전환 (vs 모드에서만)
