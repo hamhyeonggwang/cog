@@ -1020,8 +1020,16 @@ function flipMemoryCard(card) {
         return;
     }
     
-    // 화투 심볼 표시
-    card.textContent = card.dataset.symbol;
+    // 화투 심볼 표시 (이미지 또는 텍스트)
+    const symbol = card.dataset.symbol;
+    if (symbol.includes('광땡') || symbol.includes('피') || symbol.includes('띠') || 
+        symbol.includes('쌍피') || symbol.includes('홍단') || symbol.includes('청단') || symbol.includes('초단')) {
+        // 이미지 사용 (PNG 파일이 있는 경우)
+        card.innerHTML = `<img src="./images/hwatu/hwatu_${symbol}.png" alt="${symbol}" style="width: 100%; height: 100%; object-fit: contain;">`;
+    } else {
+        // 텍스트 사용 (이미지가 없는 경우)
+        card.textContent = symbol;
+    }
     card.classList.add('flipped');
     memoryGameState.flippedCards.push(card);
     
@@ -1051,8 +1059,8 @@ function flipMemoryCard(card) {
             setTimeout(() => {
                 first.classList.remove('flipped', 'wrong');
                 second.classList.remove('flipped', 'wrong');
-                first.textContent = '';
-                second.textContent = '';
+                first.innerHTML = '';
+                second.innerHTML = '';
                 memoryGameState.flippedCards = [];
                 
                 // 턴 전환 (vs 모드에서만)
