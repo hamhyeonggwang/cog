@@ -1076,6 +1076,229 @@ header h1 {
 .stroop-color-green { background: linear-gradient(135deg, #93c47d, #7cb342); color: white; }
 .stroop-color-yellow { background: linear-gradient(135deg, #ffd966, #f4a460); color: #b45f06; }
 
+/* 메모리 게임 스타일 */
+.memory-game-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.memory-mode-select {
+    background: rgba(255,255,255,0.95);
+    border-radius: 25px;
+    padding: 30px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255,255,255,0.3);
+}
+
+.memory-difficulty-area,
+.memory-mode-buttons {
+    margin-bottom: 30px;
+}
+
+.memory-difficulty-area h3,
+.memory-mode-buttons h3 {
+    font-size: 1.5rem;
+    color: #8B4513;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.memory-difficulty-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.memory-start-screen {
+    background: rgba(255,255,255,0.95);
+    border-radius: 25px;
+    padding: 40px 30px;
+    text-align: center;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255,255,255,0.3);
+}
+
+.memory-selected-mode h2 {
+    font-size: 2rem;
+    color: #8B4513;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.memory-selected-mode p {
+    font-size: 1.2rem;
+    color: #654321;
+    margin-bottom: 30px;
+}
+
+.memory-start-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.memory-game-area {
+    background: rgba(255,255,255,0.95);
+    border-radius: 25px;
+    padding: 30px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255,255,255,0.3);
+}
+
+.memory-game-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: rgba(210, 105, 30, 0.1);
+    border-radius: 15px;
+    border: 2px solid rgba(210, 105, 30, 0.3);
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.memory-timer-area,
+.memory-score-area {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.memory-timer-area .timer-icon,
+.memory-score-area .score-icon {
+    font-size: 1.5rem;
+}
+
+#memoryTimer,
+#memoryScore {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #8B4513;
+    min-width: 40px;
+    text-align: center;
+}
+
+.timer-unit,
+.score-unit {
+    font-size: 1.2rem;
+    color: #654321;
+}
+
+.memory-player-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(76, 175, 80, 0.1);
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: 2px solid rgba(76, 175, 80, 0.3);
+}
+
+#memoryCurrentPlayer {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #4CAF50;
+}
+
+.player-turn {
+    font-size: 1rem;
+    color: #666;
+}
+
+.memory-game-board {
+    display: grid;
+    gap: 15px;
+    margin-bottom: 30px;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(248, 249, 250, 0.8);
+    border-radius: 20px;
+    border: 2px solid rgba(210, 105, 30, 0.2);
+}
+
+.memory-card {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #D2691E, #CD853F);
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: bold;
+    color: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border: 3px solid rgba(255,255,255,0.3);
+    user-select: none;
+    touch-action: manipulation;
+}
+
+.memory-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+.memory-card.flipped {
+    background: linear-gradient(135deg, #ffd966, #f4a460);
+    color: #b45f06;
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(255, 217, 102, 0.4);
+}
+
+.memory-card.matched {
+    background: linear-gradient(135deg, #93c47d, #7cb342);
+    color: white;
+    transform: scale(1.1);
+    box-shadow: 0 8px 25px rgba(147, 196, 125, 0.4);
+    animation: memoryMatch 0.6s ease-in-out;
+}
+
+.memory-card.wrong {
+    background: linear-gradient(135deg, #e06666, #d32f2f);
+    color: white;
+    animation: memoryWrong 0.6s ease-in-out;
+}
+
+@keyframes memoryMatch {
+    0%, 100% { transform: scale(1.1); }
+    50% { transform: scale(1.2); }
+}
+
+@keyframes memoryWrong {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+.memory-result {
+    font-size: 1.4rem;
+    margin: 20px 0;
+    text-align: center;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #8B4513;
+}
+
+.memory-controls {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+}
+
 /* 터치 최적화 */
 @media (hover: none) and (pointer: coarse) {
     .btn {
@@ -1221,5 +1444,54 @@ header h1 {
     .stroop-selected-mode p {
         font-size: 1.4rem;
         margin-bottom: 40px;
+    }
+    
+    /* 메모리 게임 터치 최적화 */
+    .memory-card {
+        width: 100px;
+        height: 100px;
+        font-size: 2.5rem;
+        border-radius: 20px;
+    }
+    
+    .memory-game-info {
+        padding: 25px;
+        margin-bottom: 40px;
+    }
+    
+    #memoryTimer,
+    #memoryScore {
+        font-size: 2.2rem;
+        min-width: 50px;
+    }
+    
+    .timer-icon {
+        font-size: 2rem;
+    }
+    
+    .memory-selected-mode h2 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+    }
+    
+    .memory-selected-mode p {
+        font-size: 1.4rem;
+        margin-bottom: 40px;
+    }
+    
+    .memory-difficulty-buttons {
+        gap: 20px;
+    }
+    
+    .btn-difficulty {
+        min-height: 80px;
+        font-size: 1.4rem;
+        padding: 25px 30px;
+    }
+    
+    .btn-mode {
+        min-height: 80px;
+        font-size: 1.3rem;
+        padding: 25px 20px;
     }
 }

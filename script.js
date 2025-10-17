@@ -102,6 +102,11 @@ function goToStroopGame() {
     showScreen('stroopScreen');
 }
 
+// 메모리 게임으로 이동
+function goToMemoryGame() {
+    showScreen('memoryScreen');
+}
+
 // 메인 화면으로 이동
 function goToMain() {
     showScreen('mainScreen');
@@ -893,7 +898,210 @@ function getShapeIcon(shape) {
     return '?';
 }
 
+// 메모리 게임 상태 관리
+let memoryGameState = {
+    currentMode: null,
+    currentDifficulty: 'normal',
+    flippedCards: [],
+    matchedCards: 0,
+    currentPlayer: 1,
+    score: 0,
+    timer: 0,
+    timerInterval: null,
+    gameBoard: [],
+    isGameActive: false
+};
+
+const MEMORY_DIFFICULTY_MAP = {
+    easy: { rows: 4, cols: 3, name: '쉬움 (4x3)' },
+    normal: { rows: 4, cols: 4, name: '보통 (4x4)' },
+    hard: { rows: 5, cols: 4, name: '어려움 (5x4)' }
+};
+
+// 메모리 게임 함수들
+function selectMemoryDifficulty(diff) {
+    memoryGameState.currentDifficulty = diff;
+    // 버튼 스타일 업데이트
+    const btns = document.querySelectorAll('.memory-difficulty-buttons .btn-difficulty');
+    btns.forEach(btn => btn.classList.remove('active'));
+    document.querySelector(`.memory-difficulty-buttons .btn-difficulty.${diff}`).classList.add('active');
+}
+
+function selectMemoryMode(mode) {
+    memoryGameState.currentMode = mode;
+    document.getElementById('memoryModeScreen').style.display = 'none';
+    document.getElementById('memoryStartScreen').style.display = 'block';
+    
+    let title = '';
+    if (mode === 'solo') title = '혼자 플레이';
+    if (mode === 'vs') title = '컴퓨터와 대결';
+    document.getElementById('memorySelectedModeTitle').textContent = title;
+}
+
+function startMemoryGame() {
+    memoryGameState.flippedCards = [];
+    memoryGameState.matchedCards = 0;
+    memoryGameState.currentPlayer = 1;
+    memoryGameState.score = 0;
+    memoryGameState.timer = 0;
+    memoryGameState.isGameActive = true;
+    
+    document.getElementById('memoryTimer').textContent = '0';
+    document.getElementById('memoryScore').textContent = '0';
+    
+    if (memoryGameState.timerInterval) clearInterval(memoryGameState.timerInterval);
+    memoryGameState.timerInterval = setInterval(() => {
+        memoryGameState.timer++;
+        document.getElementById('memoryTimer').textContent = memoryGameState.timer;
+    }, 1000);
+    
+    document.getElementById('memoryStartScreen').style.display = 'none';
+    document.getElementById('memoryGameArea').style.display = 'block';
+    
+    // 플레이어 정보 표시
+    if (memoryGameState.currentMode === 'vs') {
+        document.getElementById('memoryPlayerInfo').style.display = 'flex';
+        document.getElementById('memoryCurrentPlayer').textContent = '플레이어 1';
+    } else {
+        document.getElementById('memoryPlayerInfo').style.display = 'none';
+    }
+    
+    createMemoryBoard();
+}
+
+function createMemoryBoard() {
+    const difficulty = MEMORY_DIFFICULTY_MAP[memoryGameState.currentDifficulty];
+    const totalCards = difficulty.rows * difficulty.cols;
+    const pairs = totalCards / 2;
+    
+    const board = document.getElementById('memoryGameBoard');
+    board.innerHTML = '';
+    board.style.gridTemplateColumns = `repeat(${difficulty.cols}, 1fr)`;
+    
+    // 이모지 심볼 생성
+    let symbols = [];
+    for (let i = 0; i < pairs; i++) {
+        const emoji = String.fromCodePoint(0x1F600 + i); // 😀부터 시작
+        symbols.push(emoji, emoji);
+    }
+    
+    // 심볼 셔플
+    symbols = symbols.sort(() => Math.random() - 0.5);
+    memoryGameState.gameBoard = symbols;
+    
+    // 카드 생성
+    symbols.forEach((symbol, index) => {
+        const card = document.createElement('div');
+        card.className = 'memory-card';
+        card.dataset.symbol = symbol;
+        card.dataset.index = index;
+        card.addEventListener('click', () => flipMemoryCard(card));
+        board.appendChild(card);
+    });
+}
+
+function flipMemoryCard(card) {
+    if (!memoryGameState.isGameActive || 
+        card.classList.contains('flipped') || 
+        card.classList.contains('matched') ||
+        memoryGameState.flippedCards.length === 2) {
+        return;
+    }
+    
+    card.textContent = card.dataset.symbol;
+    card.classList.add('flipped');
+    memoryGameState.flippedCards.push(card);
+    
+    if (memoryGameState.flippedCards.length === 2) {
+        const [first, second] = memoryGameState.flippedCards;
+        
+        if (first.dataset.symbol === second.dataset.symbol) {
+            // 매치 성공
+            first.classList.add('matched');
+            second.classList.add('matched');
+            memoryGameState.matchedCards += 2;
+            memoryGameState.score += 10;
+            document.getElementById('memoryScore').textContent = memoryGameState.score;
+            memoryGameState.flippedCards = [];
+            
+            // 게임 완료 체크
+            if (memoryGameState.matchedCards === memoryGameState.gameBoard.length) {
+                setTimeout(() => {
+                    showMemoryResult();
+                }, 500);
+            }
+        } else {
+            // 매치 실패
+            first.classList.add('wrong');
+            second.classList.add('wrong');
+            
+            setTimeout(() => {
+                first.classList.remove('flipped', 'wrong');
+                second.classList.remove('flipped', 'wrong');
+                first.textContent = '';
+                second.textContent = '';
+                memoryGameState.flippedCards = [];
+                
+                // 턴 전환 (vs 모드에서만)
+                if (memoryGameState.currentMode === 'vs') {
+                    switchMemoryTurn();
+                }
+            }, 1000);
+        }
+    }
+}
+
+function switchMemoryTurn() {
+    memoryGameState.currentPlayer = memoryGameState.currentPlayer === 1 ? 2 : 1;
+    document.getElementById('memoryCurrentPlayer').textContent = `플레이어 ${memoryGameState.currentPlayer}`;
+}
+
+function showMemoryResult() {
+    memoryGameState.isGameActive = false;
+    if (memoryGameState.timerInterval) clearInterval(memoryGameState.timerInterval);
+    
+    const difficulty = MEMORY_DIFFICULTY_MAP[memoryGameState.currentDifficulty];
+    const totalPairs = (difficulty.rows * difficulty.cols) / 2;
+    const time = memoryGameState.timer;
+    const score = memoryGameState.score;
+    
+    let resultMessage = '';
+    if (memoryGameState.currentMode === 'vs') {
+        resultMessage = `게임 완료!<br>총 소요 시간: ${time}초<br>점수: ${score}점`;
+    } else {
+        resultMessage = `축하합니다!<br>총 소요 시간: ${time}초<br>점수: ${score}점<br>모든 카드를 찾았습니다!`;
+    }
+    
+    const resultHTML = `
+        <div class="memory-result">
+            <h2>🎉 게임 완료!</h2>
+            <p>${resultMessage}</p>
+        </div>
+        <div class="memory-controls">
+            <button class="btn btn-primary" onclick="restartMemoryGame()">다시하기</button>
+            <button class="btn btn-secondary" onclick="goToMemoryModeSelect()">게임 선택으로</button>
+        </div>
+    `;
+    
+    document.getElementById('memoryGameArea').innerHTML = resultHTML;
+}
+
+function restartMemoryGame() {
+    document.getElementById('memoryModeScreen').style.display = 'block';
+    document.getElementById('memoryGameArea').style.display = 'none';
+    document.getElementById('memoryStartScreen').style.display = 'none';
+    if (memoryGameState.timerInterval) clearInterval(memoryGameState.timerInterval);
+}
+
+function goToMemoryModeSelect() {
+    document.getElementById('memoryModeScreen').style.display = 'block';
+    document.getElementById('memoryGameArea').style.display = 'none';
+    document.getElementById('memoryStartScreen').style.display = 'none';
+    if (memoryGameState.timerInterval) clearInterval(memoryGameState.timerInterval);
+}
+
 // 페이지 로드시 Stroop 게임 초기화
 document.addEventListener('DOMContentLoaded', function() {
     selectStroopDifficulty('normal');
+    selectMemoryDifficulty('normal');
 });

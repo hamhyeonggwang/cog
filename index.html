@@ -46,11 +46,11 @@
                         <div class="game-status">준비완료</div>
                     </div>
                     
-                    <div class="game-card coming-soon">
-                        <div class="game-icon">🔢</div>
-                        <h4>숫자 기억하기</h4>
-                        <p>숫자 순서를 기억하며<br>기억력을 훈련해보세요</p>
-                        <div class="game-status">준비중</div>
+                    <div class="game-card" onclick="goToMemoryGame()">
+                        <div class="game-icon">🧠</div>
+                        <h4>메모리 게임</h4>
+                        <p>카드를 뒤집어 같은 그림을 찾으며<br>기억력을 훈련해보세요</p>
+                        <div class="game-status">준비완료</div>
                     </div>
                 </div>
             </div>
@@ -230,6 +230,71 @@
                     
                     <div class="stroop-controls">
                         <button class="btn btn-secondary" onclick="goToStroopModeSelect()">게임 선택으로</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 메모리 게임 화면 -->
+        <div id="memoryScreen" class="screen">
+            <header>
+                <button class="btn btn-back" onclick="goToLanding()">← 홈으로</button>
+                <h1>🧠 메모리 게임</h1>
+                <p class="subtitle">기억력 훈련 게임</p>
+            </header>
+            
+            <div class="memory-game-container">
+                <div id="memoryModeScreen" class="memory-mode-select">
+                    <div class="memory-difficulty-area">
+                        <h3>난이도 선택</h3>
+                        <div class="memory-difficulty-buttons">
+                            <button class="btn btn-difficulty easy" onclick="selectMemoryDifficulty('easy')">쉬움 (4x3)</button>
+                            <button class="btn btn-difficulty normal active" onclick="selectMemoryDifficulty('normal')">보통 (4x4)</button>
+                            <button class="btn btn-difficulty hard" onclick="selectMemoryDifficulty('hard')">어려움 (5x4)</button>
+                        </div>
+                    </div>
+                    
+                    <div class="memory-mode-buttons">
+                        <h3>게임 모드 선택</h3>
+                        <button class="btn btn-mode solo" onclick="selectMemoryMode('solo')">혼자 플레이</button>
+                        <button class="btn btn-mode vs" onclick="selectMemoryMode('vs')">컴퓨터와 대결</button>
+                    </div>
+                </div>
+                
+                <div id="memoryStartScreen" class="memory-start-screen" style="display:none;">
+                    <div class="memory-selected-mode">
+                        <h2 id="memorySelectedModeTitle"></h2>
+                        <p>준비되셨나요? 게임을 시작해보세요!</p>
+                    </div>
+                    <div class="memory-start-buttons">
+                        <button class="btn btn-primary" onclick="startMemoryGame()">게임 시작</button>
+                        <button class="btn btn-secondary" onclick="goToMemoryModeSelect()">게임 선택으로</button>
+                    </div>
+                </div>
+                
+                <div id="memoryGameArea" class="memory-game-area" style="display:none;">
+                    <div class="memory-game-info">
+                        <div class="memory-timer-area">
+                            <span class="timer-icon">⏱️</span>
+                            <span id="memoryTimer">0</span>
+                            <span class="timer-unit">초</span>
+                        </div>
+                        <div class="memory-score-area">
+                            <span id="memoryScore">0</span>
+                            <span class="score-unit">점</span>
+                        </div>
+                        <div class="memory-player-info" id="memoryPlayerInfo" style="display:none;">
+                            <span id="memoryCurrentPlayer">플레이어 1</span>
+                            <span class="player-turn">차례</span>
+                        </div>
+                    </div>
+                    
+                    <div id="memoryGameBoard" class="memory-game-board"></div>
+                    
+                    <div id="memoryResult" class="memory-result"></div>
+                    
+                    <div class="memory-controls">
+                        <button class="btn btn-secondary" onclick="goToMemoryModeSelect()">게임 선택으로</button>
                     </div>
                 </div>
             </div>
