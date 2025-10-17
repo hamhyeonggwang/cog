@@ -52,6 +52,13 @@
                         <p>카드를 뒤집어 같은 그림을 찾으며<br>기억력을 훈련해보세요</p>
                         <div class="game-status">준비완료</div>
                     </div>
+                    
+                    <div class="game-card" onclick="goToNumberGame()">
+                        <div class="game-icon">🔢</div>
+                        <h4>숫자 순서 기억하기</h4>
+                        <p>숫자 순서를 기억하며<br>기억력을 훈련해보세요</p>
+                        <div class="game-status">준비완료</div>
+                    </div>
                 </div>
             </div>
             
@@ -295,6 +302,95 @@
                     
                     <div class="memory-controls">
                         <button class="btn btn-secondary" onclick="goToMemoryModeSelect()">게임 선택으로</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 숫자 게임 화면 -->
+        <div id="numberScreen" class="screen">
+            <header>
+                <button class="btn btn-back" onclick="goToLanding()">← 홈으로</button>
+                <h1>🔢 숫자 순서 기억하기</h1>
+                <p class="subtitle">기억력 훈련 게임</p>
+            </header>
+            
+            <div class="number-game-container">
+                <div id="numberModeScreen" class="number-mode-select">
+                    <div class="number-difficulty-area">
+                        <h3>난이도 선택</h3>
+                        <div class="number-difficulty-buttons">
+                            <button class="btn btn-difficulty easy" onclick="selectNumberDifficulty('easy')">쉬움 (3자리)</button>
+                            <button class="btn btn-difficulty normal active" onclick="selectNumberDifficulty('normal')">보통 (4자리)</button>
+                            <button class="btn btn-difficulty hard" onclick="selectNumberDifficulty('hard')">어려움 (5자리)</button>
+                            <button class="btn btn-difficulty expert" onclick="selectNumberDifficulty('expert')">전문가 (6자리)</button>
+                        </div>
+                    </div>
+                    
+                    <div class="number-mode-buttons">
+                        <h3>게임 모드 선택</h3>
+                        <button class="btn btn-mode practice" onclick="selectNumberMode('practice')">연습 모드</button>
+                        <button class="btn btn-mode challenge" onclick="selectNumberMode('challenge')">도전 모드</button>
+                    </div>
+                </div>
+                
+                <div id="numberStartScreen" class="number-start-screen" style="display:none;">
+                    <div class="number-selected-mode">
+                        <h2 id="numberSelectedModeTitle"></h2>
+                        <p>숫자를 기억하고 순서대로 입력해보세요!</p>
+                    </div>
+                    <div class="number-start-buttons">
+                        <button class="btn btn-primary" onclick="startNumberGame()">게임 시작</button>
+                        <button class="btn btn-secondary" onclick="goToNumberModeSelect()">게임 선택으로</button>
+                    </div>
+                </div>
+                
+                <div id="numberGameArea" class="number-game-area" style="display:none;">
+                    <div class="number-game-info">
+                        <div class="number-round-info">
+                            <span id="numberRound">1</span>
+                            <span class="round-unit">라운드</span>
+                        </div>
+                        <div class="number-score-area">
+                            <span id="numberScore">0</span>
+                            <span class="score-unit">점</span>
+                        </div>
+                        <div class="number-difficulty-info">
+                            <span id="numberDifficultyText">4자리</span>
+                        </div>
+                    </div>
+                    
+                    <div class="number-display-area">
+                        <div id="numberDisplay" class="number-display"></div>
+                        <div id="numberCountdown" class="number-countdown"></div>
+                    </div>
+                    
+                    <div id="numberInputArea" class="number-input-area" style="display:none;">
+                        <div class="number-input-instruction">
+                            <p>기억한 숫자를 순서대로 입력하세요</p>
+                        </div>
+                        <div class="number-input-buttons">
+                            <button class="number-btn" onclick="inputNumber('1')">1</button>
+                            <button class="number-btn" onclick="inputNumber('2')">2</button>
+                            <button class="number-btn" onclick="inputNumber('3')">3</button>
+                            <button class="number-btn" onclick="inputNumber('4')">4</button>
+                            <button class="number-btn" onclick="inputNumber('5')">5</button>
+                            <button class="number-btn" onclick="inputNumber('6')">6</button>
+                            <button class="number-btn" onclick="inputNumber('7')">7</button>
+                            <button class="number-btn" onclick="inputNumber('8')">8</button>
+                            <button class="number-btn" onclick="inputNumber('9')">9</button>
+                            <button class="number-btn" onclick="inputNumber('0')">0</button>
+                        </div>
+                        <div class="number-input-controls">
+                            <button class="btn btn-secondary" onclick="clearNumberInput()">지우기</button>
+                            <button class="btn btn-primary" onclick="submitNumberAnswer()">확인</button>
+                        </div>
+                    </div>
+                    
+                    <div id="numberResult" class="number-result"></div>
+                    
+                    <div class="number-controls">
+                        <button class="btn btn-secondary" onclick="goToNumberModeSelect()">게임 선택으로</button>
                     </div>
                 </div>
             </div>

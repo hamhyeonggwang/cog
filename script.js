@@ -107,6 +107,11 @@ function goToMemoryGame() {
     showScreen('memoryScreen');
 }
 
+// 숫자 게임으로 이동
+function goToNumberGame() {
+    showScreen('numberScreen');
+}
+
 // 메인 화면으로 이동
 function goToMain() {
     showScreen('mainScreen');
@@ -1107,8 +1112,209 @@ function goToMemoryModeSelect() {
     if (memoryGameState.timerInterval) clearInterval(memoryGameState.timerInterval);
 }
 
-// 페이지 로드시 Stroop 게임 초기화
+// 숫자 게임 상태 관리
+let numberGameState = {
+    currentMode: null,
+    currentDifficulty: 'normal',
+    currentRound: 1,
+    score: 0,
+    targetNumber: '',
+    userInput: '',
+    isGameActive: false,
+    displayTimer: null,
+    countdownTimer: null
+};
+
+const NUMBER_DIFFICULTY_MAP = {
+    easy: { digits: 3, name: '쉬움 (3자리)' },
+    normal: { digits: 4, name: '보통 (4자리)' },
+    hard: { digits: 5, name: '어려움 (5자리)' },
+    expert: { digits: 6, name: '전문가 (6자리)' }
+};
+
+// 숫자 게임 함수들
+function selectNumberDifficulty(diff) {
+    numberGameState.currentDifficulty = diff;
+    // 버튼 스타일 업데이트
+    const btns = document.querySelectorAll('.number-difficulty-buttons .btn-difficulty');
+    btns.forEach(btn => btn.classList.remove('active'));
+    document.querySelector(`.number-difficulty-buttons .btn-difficulty.${diff}`).classList.add('active');
+}
+
+function selectNumberMode(mode) {
+    numberGameState.currentMode = mode;
+    document.getElementById('numberModeScreen').style.display = 'none';
+    document.getElementById('numberStartScreen').style.display = 'block';
+    
+    let title = '';
+    if (mode === 'practice') title = '연습 모드';
+    if (mode === 'challenge') title = '도전 모드';
+    document.getElementById('numberSelectedModeTitle').textContent = title;
+}
+
+function startNumberGame() {
+    numberGameState.currentRound = 1;
+    numberGameState.score = 0;
+    numberGameState.isGameActive = true;
+    
+    document.getElementById('numberScore').textContent = '0';
+    document.getElementById('numberRound').textContent = '1';
+    
+    const difficulty = NUMBER_DIFFICULTY_MAP[numberGameState.currentDifficulty];
+    document.getElementById('numberDifficultyText').textContent = difficulty.name;
+    
+    document.getElementById('numberStartScreen').style.display = 'none';
+    document.getElementById('numberGameArea').style.display = 'block';
+    
+    showNumberSequence();
+}
+
+function showNumberSequence() {
+    const difficulty = NUMBER_DIFFICULTY_MAP[numberGameState.currentDifficulty];
+    numberGameState.targetNumber = generateRandomNumber(difficulty.digits);
+    
+    const display = document.getElementById('numberDisplay');
+    const countdown = document.getElementById('numberCountdown');
+    const inputArea = document.getElementById('numberInputArea');
+    const result = document.getElementById('numberResult');
+    
+    // 초기화
+    inputArea.style.display = 'none';
+    result.textContent = '';
+    numberGameState.userInput = '';
+    
+    // 숫자 표시
+    display.textContent = numberGameState.targetNumber;
+    display.className = 'number-display';
+    
+    // 카운트다운 시작
+    let timeLeft = 3;
+    countdown.textContent = `${timeLeft}초 후 입력하세요`;
+    
+    numberGameState.countdownTimer = setInterval(() => {
+        timeLeft--;
+        if (timeLeft > 0) {
+            countdown.textContent = `${timeLeft}초 후 입력하세요`;
+        } else {
+            countdown.textContent = '숫자를 입력하세요!';
+            display.textContent = '?'.repeat(difficulty.digits);
+            inputArea.style.display = 'block';
+            clearInterval(numberGameState.countdownTimer);
+        }
+    }, 1000);
+}
+
+function generateRandomNumber(digits) {
+    let number = '';
+    for (let i = 0; i < digits; i++) {
+        number += Math.floor(Math.random() * 10);
+    }
+    return number;
+}
+
+function inputNumber(digit) {
+    if (!numberGameState.isGameActive) return;
+    
+    const difficulty = NUMBER_DIFFICULTY_MAP[numberGameState.currentDifficulty];
+    if (numberGameState.userInput.length < difficulty.digits) {
+        numberGameState.userInput += digit;
+        updateNumberDisplay();
+    }
+}
+
+function clearNumberInput() {
+    numberGameState.userInput = '';
+    updateNumberDisplay();
+}
+
+function updateNumberDisplay() {
+    const display = document.getElementById('numberDisplay');
+    const difficulty = NUMBER_DIFFICULTY_MAP[numberGameState.currentDifficulty];
+    
+    let displayText = numberGameState.userInput;
+    while (displayText.length < difficulty.digits) {
+        displayText += '_';
+    }
+    
+    display.textContent = displayText;
+}
+
+function submitNumberAnswer() {
+    if (!numberGameState.isGameActive) return;
+    
+    const difficulty = NUMBER_DIFFICULTY_MAP[numberGameState.currentDifficulty];
+    if (numberGameState.userInput.length !== difficulty.digits) {
+        alert('모든 숫자를 입력해주세요.');
+        return;
+    }
+    
+    const isCorrect = numberGameState.userInput === numberGameState.targetNumber;
+    const result = document.getElementById('numberResult');
+    const display = document.getElementById('numberDisplay');
+    
+    if (isCorrect) {
+        numberGameState.score += difficulty.digits * 10;
+        document.getElementById('numberScore').textContent = numberGameState.score;
+        result.textContent = '정답입니다! 🎉';
+        result.className = 'number-result number-correct';
+        display.className = 'number-display number-correct';
+        
+        setTimeout(() => {
+            nextNumberRound();
+        }, 1500);
+    } else {
+        result.textContent = `틀렸습니다. 정답: ${numberGameState.targetNumber}`;
+        result.className = 'number-result number-wrong';
+        display.className = 'number-display number-wrong';
+        
+        setTimeout(() => {
+            showNumberResult();
+        }, 2000);
+    }
+}
+
+function nextNumberRound() {
+    numberGameState.currentRound++;
+    document.getElementById('numberRound').textContent = numberGameState.currentRound;
+    
+    setTimeout(() => {
+        showNumberSequence();
+    }, 1000);
+}
+
+function showNumberResult() {
+    numberGameState.isGameActive = false;
+    
+    const resultHTML = `
+        <div class="number-result">
+            <h2>🎯 게임 완료!</h2>
+            <p>총 ${numberGameState.currentRound - 1}라운드 진행</p>
+            <p>최종 점수: <span style='font-weight:bold;'>${numberGameState.score}점</span></p>
+        </div>
+        <div class="number-controls">
+            <button class="btn btn-primary" onclick="restartNumberGame()">다시하기</button>
+            <button class="btn btn-secondary" onclick="goToNumberModeSelect()">게임 선택으로</button>
+        </div>
+    `;
+    
+    document.getElementById('numberGameArea').innerHTML = resultHTML;
+}
+
+function restartNumberGame() {
+    document.getElementById('numberModeScreen').style.display = 'block';
+    document.getElementById('numberGameArea').style.display = 'none';
+    document.getElementById('numberStartScreen').style.display = 'none';
+}
+
+function goToNumberModeSelect() {
+    document.getElementById('numberModeScreen').style.display = 'block';
+    document.getElementById('numberGameArea').style.display = 'none';
+    document.getElementById('numberStartScreen').style.display = 'none';
+}
+
+// 페이지 로드시 게임 초기화
 document.addEventListener('DOMContentLoaded', function() {
     selectStroopDifficulty('normal');
     selectMemoryDifficulty('normal');
+    selectNumberDifficulty('normal');
 });
