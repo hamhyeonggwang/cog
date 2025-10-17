@@ -112,6 +112,11 @@ function goToNumberGame() {
     showScreen('numberScreen');
 }
 
+// 가을 낙엽 찾기 게임으로 이동
+function goToAttentionGame() {
+    showScreen('attentionScreen');
+}
+
 // 메인 화면으로 이동
 function goToMain() {
     showScreen('mainScreen');
@@ -1321,6 +1326,186 @@ function goToNumberModeSelect() {
     document.getElementById('numberStartScreen').style.display = 'none';
 }
 
+// 가을 낙엽 찾기 게임 상태 관리
+let attentionGameState = {
+    currentMode: null,
+    currentDifficulty: 'normal',
+    currentRound: 1,
+    score: 0,
+    targetLeaf: '',
+    leaves: [],
+    isGameActive: false,
+    correctAnswers: 0,
+    totalQuestions: 0
+};
+
+const ATTENTION_DIFFICULTY_MAP = {
+    easy: { count: 6, name: '쉬움 (6개)' },
+    normal: { count: 9, name: '보통 (9개)' },
+    hard: { count: 12, name: '어려움 (12개)' }
+};
+
+// 가을 낙엽 심볼들
+const LEAF_SYMBOLS = [
+    '🍂', '🍁', '🍃', '🌿', '🍀', '🌱', '🌾', '🌿',
+    '🍂', '🍁', '🍃', '🌿', '🍀', '🌱', '🌾', '🌿'
+];
+
+// 가을 낙엽 찾기 게임 함수들
+function selectAttentionDifficulty(diff) {
+    attentionGameState.currentDifficulty = diff;
+    const btns = document.querySelectorAll('.attention-difficulty-buttons .btn-difficulty');
+    btns.forEach(btn => btn.classList.remove('active'));
+    document.querySelector(`.attention-difficulty-buttons .btn-difficulty.${diff}`).classList.add('active');
+}
+
+function selectAttentionMode(mode) {
+    attentionGameState.currentMode = mode;
+    document.getElementById('attentionModeScreen').style.display = 'none';
+    document.getElementById('attentionStartScreen').style.display = 'block';
+    
+    let title = '';
+    if (mode === 'practice') title = '연습 모드';
+    if (mode === 'challenge') title = '도전 모드';
+    document.getElementById('attentionSelectedModeTitle').textContent = title;
+}
+
+function startAttentionGame() {
+    attentionGameState.currentRound = 1;
+    attentionGameState.score = 0;
+    attentionGameState.correctAnswers = 0;
+    attentionGameState.totalQuestions = 0;
+    attentionGameState.isGameActive = true;
+    
+    document.getElementById('attentionScore').textContent = '0';
+    document.getElementById('attentionRound').textContent = '1';
+    
+    const difficulty = ATTENTION_DIFFICULTY_MAP[attentionGameState.currentDifficulty];
+    document.getElementById('attentionTargetText').textContent = `찾을 낙엽 (${difficulty.name})`;
+    
+    document.getElementById('attentionStartScreen').style.display = 'none';
+    document.getElementById('attentionGameArea').style.display = 'block';
+    
+    showAttentionQuestion();
+}
+
+function showAttentionQuestion() {
+    const difficulty = ATTENTION_DIFFICULTY_MAP[attentionGameState.currentDifficulty];
+    const targetLeaf = LEAF_SYMBOLS[Math.floor(Math.random() * LEAF_SYMBOLS.length)];
+    attentionGameState.targetLeaf = targetLeaf;
+    
+    // 목표 낙엽 표시
+    document.getElementById('attentionTarget').textContent = targetLeaf;
+    
+    // 낙엽들 생성
+    const leavesArea = document.getElementById('attentionLeavesArea');
+    leavesArea.innerHTML = '';
+    
+    const leaves = [];
+    const correctCount = Math.floor(difficulty.count / 3); // 정답 개수
+    const wrongCount = difficulty.count - correctCount; // 오답 개수
+    
+    // 정답 낙엽들 추가
+    for (let i = 0; i < correctCount; i++) {
+        leaves.push({ symbol: targetLeaf, isCorrect: true });
+    }
+    
+    // 오답 낙엽들 추가
+    for (let i = 0; i < wrongCount; i++) {
+        let wrongLeaf;
+        do {
+            wrongLeaf = LEAF_SYMBOLS[Math.floor(Math.random() * LEAF_SYMBOLS.length)];
+        } while (wrongLeaf === targetLeaf);
+        leaves.push({ symbol: wrongLeaf, isCorrect: false });
+    }
+    
+    // 낙엽들 셔플
+    leaves.sort(() => Math.random() - 0.5);
+    attentionGameState.leaves = leaves;
+    
+    // 낙엽 버튼들 생성
+    leaves.forEach((leaf, index) => {
+        const leafBtn = document.createElement('button');
+        leafBtn.className = 'attention-leaf-btn';
+        leafBtn.textContent = leaf.symbol;
+        leafBtn.dataset.index = index;
+        leafBtn.dataset.isCorrect = leaf.isCorrect;
+        leafBtn.addEventListener('click', () => selectAttentionLeaf(leafBtn));
+        leavesArea.appendChild(leafBtn);
+    });
+    
+    attentionGameState.totalQuestions += correctCount;
+}
+
+function selectAttentionLeaf(leafBtn) {
+    if (!attentionGameState.isGameActive) return;
+    
+    const isCorrect = leafBtn.dataset.isCorrect === 'true';
+    
+    if (isCorrect) {
+        leafBtn.classList.add('correct');
+        attentionGameState.correctAnswers++;
+        attentionGameState.score += 10;
+        document.getElementById('attentionScore').textContent = attentionGameState.score;
+        
+        // 모든 정답을 찾았는지 확인
+        const correctLeaves = document.querySelectorAll('.attention-leaf-btn[data-is-correct="true"]');
+        const foundCorrectLeaves = document.querySelectorAll('.attention-leaf-btn.correct');
+        
+        if (correctLeaves.length === foundCorrectLeaves.length) {
+            setTimeout(() => {
+                nextAttentionRound();
+            }, 1000);
+        }
+    } else {
+        leafBtn.classList.add('wrong');
+        setTimeout(() => {
+            leafBtn.classList.remove('wrong');
+        }, 500);
+    }
+}
+
+function nextAttentionRound() {
+    attentionGameState.currentRound++;
+    document.getElementById('attentionRound').textContent = attentionGameState.currentRound;
+    
+    setTimeout(() => {
+        showAttentionQuestion();
+    }, 1000);
+}
+
+function showAttentionResult() {
+    attentionGameState.isGameActive = false;
+    
+    const accuracy = Math.round((attentionGameState.correctAnswers / attentionGameState.totalQuestions) * 100);
+    const resultHTML = `
+        <div class="attention-result">
+            <h2>🍂 게임 완료!</h2>
+            <p>총 ${attentionGameState.currentRound - 1}라운드 진행</p>
+            <p>정확도: <span style='font-weight:bold;'>${accuracy}%</span></p>
+            <p>최종 점수: <span style='font-weight:bold;'>${attentionGameState.score}점</span></p>
+        </div>
+        <div class="attention-controls">
+            <button class="btn btn-primary" onclick="restartAttentionGame()">다시하기</button>
+            <button class="btn btn-secondary" onclick="goToAttentionModeSelect()">게임 선택으로</button>
+        </div>
+    `;
+    
+    document.getElementById('attentionGameArea').innerHTML = resultHTML;
+}
+
+function restartAttentionGame() {
+    document.getElementById('attentionModeScreen').style.display = 'block';
+    document.getElementById('attentionGameArea').style.display = 'none';
+    document.getElementById('attentionStartScreen').style.display = 'none';
+}
+
+function goToAttentionModeSelect() {
+    document.getElementById('attentionModeScreen').style.display = 'block';
+    document.getElementById('attentionGameArea').style.display = 'none';
+    document.getElementById('attentionStartScreen').style.display = 'none';
+}
+
 // 페이지 로드시 게임 초기화
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM loaded, initializing games...');
@@ -1328,6 +1513,7 @@ document.addEventListener('DOMContentLoaded', function() {
         selectStroopDifficulty('normal');
         selectMemoryDifficulty('normal');
         selectNumberDifficulty('normal');
+        selectAttentionDifficulty('normal');
         console.log('Games initialized successfully');
         
         // 숫자 게임 테스트

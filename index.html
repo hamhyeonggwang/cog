@@ -59,6 +59,27 @@
                         <p>숫자 순서를 기억하며<br>기억력을 훈련해보세요</p>
                         <div class="game-status">준비완료</div>
                     </div>
+                    
+                    <div class="game-card" onclick="goToAttentionGame()">
+                        <div class="game-icon">🍂</div>
+                        <h4>가을 낙엽 찾기</h4>
+                        <p>다양한 낙엽 중에서<br>같은 모양을 찾아보세요</p>
+                        <div class="game-status">준비완료</div>
+                    </div>
+                    
+                    <div class="game-card" onclick="goToExecutiveGame()">
+                        <div class="game-icon">🧩</div>
+                        <h4>가을 퍼즐 맞추기</h4>
+                        <p>조각을 순서대로 맞춰<br>완성된 그림을 만들어보세요</p>
+                        <div class="game-status">준비완료</div>
+                    </div>
+                    
+                    <div class="game-card" onclick="goToSpeedGame()">
+                        <div class="game-icon">⚡</div>
+                        <h4>빠른 반응 훈련</h4>
+                        <p>빠르게 나타나는 그림에<br>즉시 반응해보세요</p>
+                        <div class="game-status">준비완료</div>
+                    </div>
                 </div>
             </div>
             
@@ -314,6 +335,75 @@
                     
                     <div class="memory-controls">
                         <button class="btn btn-secondary" onclick="goToMemoryModeSelect()">게임 선택으로</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 가을 낙엽 찾기 게임 화면 -->
+        <div id="attentionScreen" class="screen">
+            <header>
+                <button class="btn btn-back" onclick="goToLanding()">← 홈으로</button>
+                <h1>🍂 가을 낙엽 찾기</h1>
+                <p class="subtitle">선택적주의 집중력 훈련</p>
+            </header>
+            
+            <div class="attention-game-container">
+                <div id="attentionModeScreen" class="attention-mode-select">
+                    <div class="attention-difficulty-area">
+                        <h3>난이도 선택</h3>
+                        <div class="attention-difficulty-buttons">
+                            <button class="btn btn-difficulty easy" onclick="selectAttentionDifficulty('easy')">쉬움 (6개)</button>
+                            <button class="btn btn-difficulty normal active" onclick="selectAttentionDifficulty('normal')">보통 (9개)</button>
+                            <button class="btn btn-difficulty hard" onclick="selectAttentionDifficulty('hard')">어려움 (12개)</button>
+                        </div>
+                    </div>
+                    
+                    <div class="attention-mode-buttons">
+                        <h3>게임 모드 선택</h3>
+                        <button class="btn btn-mode practice" onclick="selectAttentionMode('practice')">연습 모드</button>
+                        <button class="btn btn-mode challenge" onclick="selectAttentionMode('challenge')">도전 모드</button>
+                    </div>
+                </div>
+                
+                <div id="attentionStartScreen" class="attention-start-screen" style="display:none;">
+                    <div class="attention-selected-mode">
+                        <h2 id="attentionSelectedModeTitle"></h2>
+                        <p>같은 모양의 낙엽을 찾아보세요!</p>
+                    </div>
+                    <div class="attention-start-buttons">
+                        <button class="btn btn-primary" onclick="startAttentionGame()">게임 시작</button>
+                        <button class="btn btn-secondary" onclick="goToAttentionModeSelect()">게임 선택으로</button>
+                    </div>
+                </div>
+                
+                <div id="attentionGameArea" class="attention-game-area" style="display:none;">
+                    <div class="attention-game-info">
+                        <div class="attention-round-info">
+                            <span id="attentionRound">1</span>
+                            <span class="round-unit">라운드</span>
+                        </div>
+                        <div class="attention-score-area">
+                            <span id="attentionScore">0</span>
+                            <span class="score-unit">점</span>
+                        </div>
+                        <div class="attention-target-info">
+                            <span id="attentionTargetText">찾을 낙엽</span>
+                        </div>
+                    </div>
+                    
+                    <div class="attention-target-area">
+                        <div id="attentionTarget" class="attention-target"></div>
+                    </div>
+                    
+                    <div id="attentionLeavesArea" class="attention-leaves-area">
+                        <!-- 낙엽들이 여기에 동적으로 생성됩니다 -->
+                    </div>
+                    
+                    <div id="attentionResult" class="attention-result"></div>
+                    
+                    <div class="attention-controls">
+                        <button class="btn btn-secondary" onclick="goToAttentionModeSelect()">게임 선택으로</button>
                     </div>
                 </div>
             </div>
