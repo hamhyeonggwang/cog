@@ -1,0 +1,21 @@
+{
+  "name": "인지 건강 훈련 프로그램",
+  "short_name": "인지훈련",
+  "description": "노인분들을 위한 뇌 건강 인지훈련 게임 프로그램",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#D2691E",
+  "theme_color": "#D2691E",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["education", "games", "health", "medical"],
+  "lang": "ko",
+  "dir": "ltr"
+}

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>인지 건강 훈련 프로그램 - 뇌 건강을 위한 게임</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="icon.svg" type="image/svg+xml">
+    <meta name="theme-color" content="#D2691E">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="인지훈련">
+</head>
+<body>
+    <div class="container">
+        <!-- 랜딩 페이지 -->
+        <div id="landingScreen" class="screen active">
+            <header class="landing-header">
+                <h1>🍂 인지 건강 훈련 프로그램</h1>
+                <p class="subtitle">뇌 건강을 위한 즐거운 게임들</p>
+            </header>
+            
+            <div class="welcome-section">
+                <div class="welcome-card">
+                    <h2>안녕하세요! 👋</h2>
+                    <p>뇌 건강을 위한 다양한 인지훈련 게임을 즐겨보세요.<br>
+                    간단한 터치로 쉽고 재미있게 뇌를 자극할 수 있습니다.</p>
+                </div>
+            </div>
+            
+            <div class="games-section">
+                <h3>🎮 인지훈련 게임</h3>
+                <div class="games-grid">
+                    <div class="game-card" onclick="goToProverbGame()">
+                        <div class="game-icon">📚</div>
+                        <h4>속담 이어 말하기</h4>
+                        <p>전통 속담을 완성하며<br>언어 능력을 향상시켜보세요</p>
+                        <div class="game-status">준비완료</div>
+                    </div>
+                    
+                    <div class="game-card" onclick="goToStroopGame()">
+                        <div class="game-icon">🎨</div>
+                        <h4>색깔 맞추기</h4>
+                        <p>색깔과 모양을 구분하며<br>집중력을 향상시켜보세요</p>
+                        <div class="game-status">준비완료</div>
+                    </div>
+                    
+                    <div class="game-card coming-soon">
+                        <div class="game-icon">🔢</div>
+                        <h4>숫자 기억하기</h4>
+                        <p>숫자 순서를 기억하며<br>기억력을 훈련해보세요</p>
+                        <div class="game-status">준비중</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="benefits-section">
+                <h3>💡 인지훈련의 효과</h3>
+                <div class="benefits-grid">
+                    <div class="benefit-item">
+                        <div class="benefit-icon">🧠</div>
+                        <h4>기억력 향상</h4>
+                        <p>단기 기억력과 장기 기억력이 개선됩니다</p>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">🎯</div>
+                        <h4>집중력 강화</h4>
+                        <p>주의 집중 시간이 늘어나고 정확도가 향상됩니다</p>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">💬</div>
+                        <h4>언어 능력</h4>
+                        <p>어휘력과 언어 이해력이 발달합니다</p>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">😊</div>
+                        <h4>기분 개선</h4>
+                        <p>성취감과 자신감이 높아집니다</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-info">
+                <p>💡 매일 10-15분씩 꾸준히 하시면 더욱 좋은 효과를 얻을 수 있습니다</p>
+            </div>
+        </div>
+
+        <!-- 속담 게임 메인 화면 -->
+        <div id="mainScreen" class="screen">
+            <header>
+                <button class="btn btn-back" onclick="goToLanding()">← 홈으로</button>
+                <h1>📚 속담 이어 말하기</h1>
+                <p class="subtitle">인지훈련 게임</p>
+            </header>
+            
+            <div class="game-info">
+                <div class="info-card">
+                    <h3>게임 방법</h3>
+                    <p>주어진 속담의 앞부분을 보고<br>맞는 답을 터치하여 선택하세요!</p>
+                    <div class="game-features">
+                        <div class="feature">📱 터치로 간편하게</div>
+                        <div class="feature">🎯 4개 선택지 중 선택</div>
+                        <div class="feature">🧠 인지훈련에 도움</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="startGame()">게임 시작</button>
+                <button class="btn btn-secondary" onclick="showDataManager()">속담 관리</button>
+            </div>
+        </div>
+
+        <!-- 게임 화면 -->
+        <div id="gameScreen" class="screen">
+            <header class="game-header">
+                <div class="progress-info">
+                    <span id="currentQuestion">1</span> / <span id="totalQuestions">10</span>
+                </div>
+                <div class="score-info">
+                    점수: <span id="currentScore">0</span>
+                </div>
+            </header>
+            
+            <div class="game-content">
+                <div class="question-card">
+                    <h2 id="questionText">속담 앞부분이 여기에 표시됩니다</h2>
+                    <div class="answer-area">
+                        <div class="answer-options" id="answerOptions">
+                            <!-- 객관식 선택지가 여기에 동적으로 생성됩니다 -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="feedback" id="feedback"></div>
+            </div>
+            
+            <div class="game-controls">
+                <button class="btn btn-secondary" onclick="goToMain()">메인으로</button>
+                <button class="btn btn-primary" onclick="nextQuestion()" id="nextBtn" style="display: none;">다음 문제</button>
+            </div>
+        </div>
+
+        <!-- 결과 화면 -->
+        <div id="resultScreen" class="screen">
+            <header>
+                <h1>🎉 게임 완료!</h1>
+            </header>
+            
+            <div class="result-content">
+                <div class="score-display">
+                    <h2>최종 점수</h2>
+                    <div class="score-number" id="finalScore">0</div>
+                    <div class="score-message" id="scoreMessage"></div>
+                </div>
+                
+                <div class="result-details">
+                    <div class="detail-item">
+                        <span>정답</span>
+                        <span id="correctCount">0</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>오답</span>
+                        <span id="wrongCount">0</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="restartGame()">다시 하기</button>
+                <button class="btn btn-secondary" onclick="goToMain()">메인으로</button>
+            </div>
+        </div>
+
+        <!-- Stroop 게임 화면 -->
+        <div id="stroopScreen" class="screen">
+            <header>
+                <button class="btn btn-back" onclick="goToLanding()">← 홈으로</button>
+                <h1>🎨 색깔 맞추기</h1>
+                <p class="subtitle">집중력 훈련 게임</p>
+            </header>
+            
+            <div class="stroop-game-container">
+                <div id="stroopModeScreen" class="stroop-mode-select">
+                    <div class="stroop-difficulty-area">
+                        <h3>난이도 선택</h3>
+                        <div class="difficulty-buttons">
+                            <button class="btn btn-difficulty easy" onclick="selectStroopDifficulty('easy')">쉬움</button>
+                            <button class="btn btn-difficulty normal active" onclick="selectStroopDifficulty('normal')">보통</button>
+                            <button class="btn btn-difficulty hard" onclick="selectStroopDifficulty('hard')">어려움</button>
+                        </div>
+                    </div>
+                    
+                    <div class="stroop-mode-buttons">
+                        <h3>게임 모드 선택</h3>
+                        <button class="btn btn-mode kor" onclick="selectStroopMode('kor')">한글 모드</button>
+                        <button class="btn btn-mode eng" onclick="selectStroopMode('eng')">영어 모드</button>
+                        <button class="btn btn-mode shape" onclick="selectStroopMode('shape')">모양 모드</button>
+                        <button class="btn btn-mode baby" onclick="selectStroopMode('baby')">베이비 모드</button>
+                    </div>
+                </div>
+                
+                <div id="stroopStartScreen" class="stroop-start-screen" style="display:none;">
+                    <div class="stroop-selected-mode">
+                        <h2 id="stroopSelectedModeTitle"></h2>
+                        <p>준비되셨나요? 게임을 시작해보세요!</p>
+                    </div>
+                    <div class="stroop-start-buttons">
+                        <button class="btn btn-primary" onclick="startStroopGame()">게임 시작</button>
+                        <button class="btn btn-secondary" onclick="goToStroopModeSelect()">게임 선택으로</button>
+                    </div>
+                </div>
+                
+                <div id="stroopGameArea" class="stroop-game-area" style="display:none;">
+                    <div class="stroop-timer-area">
+                        <span class="timer-icon">🕒</span>
+                        <span id="stroopTimer">0.0</span>
+                        <span class="timer-unit">초</span>
+                    </div>
+                    
+                    <div class="stroop-question-area">
+                        <div id="stroopQuestion" class="stroop-question"></div>
+                        <div id="stroopJudgeMark" class="stroop-judge-mark"></div>
+                    </div>
+                    
+                    <div id="stroopChoices" class="stroop-choices"></div>
+                    
+                    <div id="stroopResult" class="stroop-result"></div>
+                    
+                    <div class="stroop-controls">
+                        <button class="btn btn-secondary" onclick="goToStroopModeSelect()">게임 선택으로</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 데이터 관리 화면 -->
+        <div id="dataManagerScreen" class="screen">
+            <header>
+                <h1>📝 속담 관리</h1>
+                <button class="btn btn-back" onclick="goToMain()">← 메인으로</button>
+            </header>
+            
+            <div class="data-manager">
+                <div class="add-proverb-section">
+                    <h3>새 속담 추가</h3>
+                    <div class="input-group">
+                        <input type="text" id="newProverb" placeholder="완전한 속담을 입력하세요" maxlength="50">
+                        <button class="btn btn-add" onclick="addProverb()">추가</button>
+                    </div>
+                </div>
+                
+                <div class="proverb-list-section">
+                    <h3>현재 속담 목록 (<span id="proverbCount">0</span>개)</h3>
+                    <div class="proverb-list" id="proverbList">
+                        <!-- 속담 목록이 여기에 표시됩니다 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 오디오 요소 -->
+    <audio id="correctSound" preload="auto">
+        <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBjuBzvLZizEIHm7A7+OZURE=" type="audio/wav">
+    </audio>
+    
+    <audio id="wrongSound" preload="auto">
+        <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBjuBzvLZizEIHm7A7+OZURE=" type="audio/wav">
+    </audio>
+
+    <script src="script.js"></script>
+</body>
+</html>

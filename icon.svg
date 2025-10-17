@@ -1,0 +1,35 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="brain" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4CAF50;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#45a049;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- 배경 -->
+  <rect width="512" height="512" fill="url(#bg)" rx="80"/>
+  
+  <!-- 뇌 아이콘 -->
+  <g transform="translate(256, 256)">
+    <!-- 뇌 모양 -->
+    <path d="M-80,-40 C-100,-60 -80,-80 -40,-80 C-20,-80 -10,-70 -10,-50 C-10,-30 -20,-20 -40,-20 C-60,-20 -80,-30 -80,-40 Z M40,-40 C60,-60 80,-80 40,-80 C20,-80 10,-70 10,-50 C10,-30 20,-20 40,-20 C60,-20 80,-30 80,-40 Z M-60,0 C-80,20 -60,40 -20,40 C0,40 10,30 10,10 C10,-10 0,-20 -20,-20 C-40,-20 -60,-10 -60,0 Z M60,0 C80,20 60,40 20,40 C0,40 -10,30 -10,10 C-10,-10 0,-20 20,-20 C40,-20 60,-10 60,0 Z" fill="url(#brain)" stroke="#fff" stroke-width="4"/>
+    
+    <!-- 생각 표시 -->
+    <circle cx="-50" cy="-60" r="8" fill="#fff" opacity="0.8"/>
+    <circle cx="-30" cy="-70" r="6" fill="#fff" opacity="0.6"/>
+    <circle cx="-10" cy="-80" r="4" fill="#fff" opacity="0.4"/>
+    
+    <circle cx="50" cy="-60" r="8" fill="#fff" opacity="0.8"/>
+    <circle cx="30" cy="-70" r="6" fill="#fff" opacity="0.6"/>
+    <circle cx="10" cy="-80" r="4" fill="#fff" opacity="0.4"/>
+    
+    <!-- 말풍선 -->
+    <ellipse cx="0" cy="60" rx="40" ry="25" fill="#fff" opacity="0.9"/>
+    <path d="M-20,85 L-10,75 L-30,75 Z" fill="#fff" opacity="0.9"/>
+    <text x="0" y="70" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#4CAF50">말</text>
+  </g>
+</svg>

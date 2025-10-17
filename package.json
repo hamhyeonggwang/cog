@@ -1,0 +1,34 @@
+{
+  "name": "cognitive-training-program",
+  "version": "1.0.0",
+  "description": "노인분들을 위한 뇌 건강 인지훈련 게임 프로그램",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve .",
+    "dev": "npx serve . -l 3000",
+    "build": "echo 'Static site - no build needed'",
+    "deploy": "vercel --prod"
+  },
+  "keywords": [
+    "cognitive-training",
+    "brain-health",
+    "elderly",
+    "games",
+    "memory",
+    "touch-screen",
+    "pwa"
+  ],
+  "author": "Cognitive Training Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/cognitive-training-program.git"
+  },
+  "homepage": "https://cognitive-training-program.vercel.app",
+  "devDependencies": {
+    "serve": "^14.2.0"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
