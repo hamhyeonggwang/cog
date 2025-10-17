@@ -67,12 +67,6 @@
                         <div class="game-status">준비완료</div>
                     </div>
                     
-                    <div class="game-card" onclick="goToExecutiveGame()">
-                        <div class="game-icon">🧩</div>
-                        <h4>가을 퍼즐 맞추기</h4>
-                        <p>조각을 순서대로 맞춰<br>완성된 그림을 만들어보세요</p>
-                        <div class="game-status">준비완료</div>
-                    </div>
                     
                     <div class="game-card" onclick="goToSpeedGame()">
                         <div class="game-icon">⚡</div>
@@ -409,73 +403,6 @@
             </div>
         </div>
 
-        <!-- 가을 퍼즐 맞추기 게임 화면 -->
-        <div id="executiveScreen" class="screen">
-            <header>
-                <button class="btn btn-back" onclick="goToLanding()">← 홈으로</button>
-                <h1>🧩 가을 퍼즐 맞추기</h1>
-                <p class="subtitle">집행기능 훈련 게임</p>
-            </header>
-            
-            <div class="executive-game-container">
-                <div id="executiveModeScreen" class="executive-mode-select">
-                    <div class="executive-difficulty-area">
-                        <h3>난이도 선택</h3>
-                        <div class="executive-difficulty-buttons">
-                            <button class="btn btn-difficulty easy" onclick="selectExecutiveDifficulty('easy')">쉬움 (2x2)</button>
-                            <button class="btn btn-difficulty normal active" onclick="selectExecutiveDifficulty('normal')">보통 (3x3)</button>
-                            <button class="btn btn-difficulty hard" onclick="selectExecutiveDifficulty('hard')">어려움 (4x4)</button>
-                        </div>
-                    </div>
-                    
-                    <div class="executive-mode-buttons">
-                        <h3>게임 모드 선택</h3>
-                        <button class="btn btn-mode practice" onclick="selectExecutiveMode('practice')">연습 모드</button>
-                        <button class="btn btn-mode challenge" onclick="selectExecutiveMode('challenge')">도전 모드</button>
-                    </div>
-                </div>
-                
-                <div id="executiveStartScreen" class="executive-start-screen" style="display:none;">
-                    <div class="executive-selected-mode">
-                        <h2 id="executiveSelectedModeTitle"></h2>
-                        <p>조각을 순서대로 맞춰 완성된 그림을 만들어보세요!</p>
-                    </div>
-                    <div class="executive-start-buttons">
-                        <button class="btn btn-primary" onclick="startExecutiveGame()">게임 시작</button>
-                        <button class="btn btn-secondary" onclick="goToExecutiveModeSelect()">게임 선택으로</button>
-                    </div>
-                </div>
-                
-                <div id="executiveGameArea" class="executive-game-area" style="display:none;">
-                    <div class="executive-game-info">
-                        <div class="executive-round-info">
-                            <span id="executiveRound">1</span>
-                            <span class="round-unit">라운드</span>
-                        </div>
-                        <div class="executive-score-area">
-                            <span id="executiveScore">0</span>
-                            <span class="score-unit">점</span>
-                        </div>
-                        <div class="executive-time-info">
-                            <span id="executiveTime">0</span>
-                            <span class="time-unit">초</span>
-                        </div>
-                    </div>
-                    
-                    <div class="executive-puzzle-area">
-                        <div id="executivePuzzle" class="executive-puzzle">
-                            <!-- 퍼즐 조각들이 여기에 동적으로 생성됩니다 -->
-                        </div>
-                    </div>
-                    
-                    <div id="executiveResult" class="executive-result"></div>
-                    
-                    <div class="executive-controls">
-                        <button class="btn btn-secondary" onclick="goToExecutiveModeSelect()">게임 선택으로</button>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <!-- 숫자 게임 화면 -->
         <div id="numberScreen" class="screen">

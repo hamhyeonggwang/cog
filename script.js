@@ -117,10 +117,6 @@ function goToAttentionGame() {
     showScreen('attentionScreen');
 }
 
-// 가을 퍼즐 맞추기 게임으로 이동
-function goToExecutiveGame() {
-    showScreen('executiveScreen');
-}
 
 // 빠른 반응 훈련 게임으로 이동
 function goToSpeedGame() {
@@ -1516,172 +1512,6 @@ function goToAttentionModeSelect() {
     document.getElementById('attentionStartScreen').style.display = 'none';
 }
 
-// 가을 퍼즐 맞추기 게임 상태 관리
-let executiveGameState = {
-    currentMode: null,
-    currentDifficulty: 'normal',
-    currentRound: 1,
-    score: 0,
-    puzzle: [],
-    isGameActive: false,
-    startTime: 0,
-    completedPuzzles: 0
-};
-
-const EXECUTIVE_DIFFICULTY_MAP = {
-    easy: { size: 2, name: '쉬움 (2x2)' },
-    normal: { size: 3, name: '보통 (3x3)' },
-    hard: { size: 4, name: '어려움 (4x4)' }
-};
-
-// 가을 퍼즐 심볼들
-const PUZZLE_SYMBOLS = [
-    '🍂', '🍁', '🍃', '🌿', '🍀', '🌱', '🌾', '🌰',
-    '🍄', '🌻', '🌺', '🌷', '🌹', '🌼', '🌸', '🌵'
-];
-
-// 가을 퍼즐 맞추기 게임 함수들
-function selectExecutiveDifficulty(diff) {
-    executiveGameState.currentDifficulty = diff;
-    const btns = document.querySelectorAll('.executive-difficulty-buttons .btn-difficulty');
-    btns.forEach(btn => btn.classList.remove('active'));
-    document.querySelector(`.executive-difficulty-buttons .btn-difficulty.${diff}`).classList.add('active');
-}
-
-function selectExecutiveMode(mode) {
-    executiveGameState.currentMode = mode;
-    document.getElementById('executiveModeScreen').style.display = 'none';
-    document.getElementById('executiveStartScreen').style.display = 'block';
-    
-    let title = '';
-    if (mode === 'practice') title = '연습 모드';
-    if (mode === 'challenge') title = '도전 모드';
-    document.getElementById('executiveSelectedModeTitle').textContent = title;
-}
-
-function startExecutiveGame() {
-    executiveGameState.currentRound = 1;
-    executiveGameState.score = 0;
-    executiveGameState.completedPuzzles = 0;
-    executiveGameState.isGameActive = true;
-    
-    document.getElementById('executiveScore').textContent = '0';
-    document.getElementById('executiveRound').textContent = '1';
-    document.getElementById('executiveTime').textContent = '0';
-    
-    document.getElementById('executiveStartScreen').style.display = 'none';
-    document.getElementById('executiveGameArea').style.display = 'block';
-    
-    createExecutivePuzzle();
-}
-
-function createExecutivePuzzle() {
-    const difficulty = EXECUTIVE_DIFFICULTY_MAP[executiveGameState.currentDifficulty];
-    const size = difficulty.size;
-    const totalPieces = size * size;
-    
-    const puzzle = document.getElementById('executivePuzzle');
-    puzzle.innerHTML = '';
-    puzzle.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
-    
-    // 퍼즐 조각들 생성
-    const pieces = [];
-    for (let i = 0; i < totalPieces; i++) {
-        const symbol = PUZZLE_SYMBOLS[i % PUZZLE_SYMBOLS.length];
-        pieces.push({ symbol, correctOrder: i });
-    }
-    
-    // 조각들 셔플
-    pieces.sort(() => Math.random() - 0.5);
-    executiveGameState.puzzle = pieces;
-    
-    // 퍼즐 조각 버튼들 생성
-    pieces.forEach((piece, index) => {
-        const pieceBtn = document.createElement('button');
-        pieceBtn.className = 'executive-piece-btn';
-        pieceBtn.textContent = piece.symbol;
-        pieceBtn.dataset.index = index;
-        pieceBtn.dataset.correctOrder = piece.correctOrder;
-        pieceBtn.addEventListener('click', () => selectExecutivePiece(pieceBtn));
-        puzzle.appendChild(pieceBtn);
-    });
-    
-    executiveGameState.startTime = Date.now();
-}
-
-function selectExecutivePiece(pieceBtn) {
-    if (!executiveGameState.isGameActive) return;
-    
-    const index = parseInt(pieceBtn.dataset.index);
-    const correctOrder = parseInt(pieceBtn.dataset.correctOrder);
-    
-    // 올바른 순서인지 확인
-    if (index === executiveGameState.completedPuzzles) {
-        pieceBtn.classList.add('correct');
-        pieceBtn.disabled = true;
-        executiveGameState.completedPuzzles++;
-        executiveGameState.score += 10;
-        document.getElementById('executiveScore').textContent = executiveGameState.score;
-        
-        // 퍼즐 완성 확인
-        const difficulty = EXECUTIVE_DIFFICULTY_MAP[executiveGameState.currentDifficulty];
-        const totalPieces = difficulty.size * difficulty.size;
-        
-        if (executiveGameState.completedPuzzles === totalPieces) {
-            const endTime = Date.now();
-            const timeTaken = Math.round((endTime - executiveGameState.startTime) / 1000);
-            document.getElementById('executiveTime').textContent = timeTaken;
-            
-            setTimeout(() => {
-                nextExecutiveRound();
-            }, 1000);
-        }
-    } else {
-        pieceBtn.classList.add('wrong');
-        setTimeout(() => {
-            pieceBtn.classList.remove('wrong');
-        }, 500);
-    }
-}
-
-function nextExecutiveRound() {
-    executiveGameState.currentRound++;
-    document.getElementById('executiveRound').textContent = executiveGameState.currentRound;
-    
-    setTimeout(() => {
-        createExecutivePuzzle();
-    }, 1000);
-}
-
-function showExecutiveResult() {
-    executiveGameState.isGameActive = false;
-    
-    const resultHTML = `
-        <div class="executive-result">
-            <h2>🧩 게임 완료!</h2>
-            <p>총 ${executiveGameState.currentRound - 1}라운드 진행</p>
-            <p>최종 점수: <span style='font-weight:bold;'>${executiveGameState.score}점</span></p>
-        </div>
-        <div class="executive-controls">
-            <button class="btn btn-primary" onclick="restartExecutiveGame()">다시하기</button>
-            <button class="btn btn-secondary" onclick="goToExecutiveModeSelect()">게임 선택으로</button>
-        </div>
-    `;
-    
-    document.getElementById('executiveGameArea').innerHTML = resultHTML;
-}
-
-function restartExecutiveGame() {
-    document.getElementById('executiveModeScreen').style.display = 'block';
-    document.getElementById('executiveGameArea').style.display = 'none';
-    document.getElementById('executiveStartScreen').style.display = 'none';
-}
-
-function goToExecutiveModeSelect() {
-    document.getElementById('executiveModeScreen').style.display = 'block';
-    document.getElementById('executiveGameArea').style.display = 'none';
-    document.getElementById('executiveStartScreen').style.display = 'none';
-}
 
 // 빠른 반응 훈련 게임 상태 관리
 let speedGameState = {
@@ -1747,6 +1577,7 @@ function showSpeedTarget() {
     
     target.textContent = randomSymbol;
     target.className = 'speed-target show';
+    target.onclick = clickSpeedTarget;
     speedGameState.currentTarget = randomSymbol;
     speedGameState.startTime = Date.now();
     
@@ -1777,6 +1608,21 @@ function clickSpeedTarget() {
     // 타겟 숨기기
     const target = document.getElementById('speedTarget');
     target.className = 'speed-target hide';
+    
+    // 라운드 진행 (10번 반응하면 다음 라운드)
+    if (speedGameState.reactionTimes.length >= 10) {
+        speedGameState.currentRound++;
+        speedGameState.reactionTimes = [];
+        document.getElementById('speedRound').textContent = speedGameState.currentRound;
+        
+        // 5라운드 완료시 게임 종료
+        if (speedGameState.currentRound > 5) {
+            setTimeout(() => {
+                showSpeedResult();
+            }, 1000);
+            return;
+        }
+    }
     
     // 다음 타겟 표시
     setTimeout(() => {
@@ -1832,7 +1678,6 @@ document.addEventListener('DOMContentLoaded', function() {
         selectMemoryDifficulty('normal');
         selectNumberDifficulty('normal');
         selectAttentionDifficulty('normal');
-        selectExecutiveDifficulty('normal');
         selectSpeedDifficulty('normal');
         console.log('Games initialized successfully');
         
