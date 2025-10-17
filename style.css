@@ -8,10 +8,13 @@
 body {
     font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
     background: linear-gradient(135deg, #D2691E 0%, #CD853F 25%, #DEB887 50%, #F4A460 75%, #D2691E 100%);
+    background-attachment: fixed;
     min-height: 100vh;
     color: #333;
     overflow-x: hidden;
     position: relative;
+    margin: 0;
+    padding: 0;
 }
 
 /* 가을 배경 효과 */
@@ -37,6 +40,9 @@ body::before {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    width: 100%;
+    position: relative;
+    z-index: 1;
 }
 
 /* 화면 전환 */

@@ -1314,7 +1314,24 @@ function goToNumberModeSelect() {
 
 // 페이지 로드시 게임 초기화
 document.addEventListener('DOMContentLoaded', function() {
-    selectStroopDifficulty('normal');
-    selectMemoryDifficulty('normal');
-    selectNumberDifficulty('normal');
+    console.log('DOM loaded, initializing games...');
+    try {
+        selectStroopDifficulty('normal');
+        selectMemoryDifficulty('normal');
+        selectNumberDifficulty('normal');
+        console.log('Games initialized successfully');
+    } catch (error) {
+        console.error('Error initializing games:', error);
+    }
+});
+
+// 추가 안전장치: window.onload
+window.addEventListener('load', function() {
+    console.log('Window loaded, ensuring all resources are ready...');
+    // CSS가 로드되었는지 확인
+    if (document.querySelector('link[href*="style.css"]')) {
+        console.log('CSS file found');
+    } else {
+        console.error('CSS file not found!');
+    }
 });
