@@ -409,6 +409,74 @@
             </div>
         </div>
 
+        <!-- 가을 퍼즐 맞추기 게임 화면 -->
+        <div id="executiveScreen" class="screen">
+            <header>
+                <button class="btn btn-back" onclick="goToLanding()">← 홈으로</button>
+                <h1>🧩 가을 퍼즐 맞추기</h1>
+                <p class="subtitle">집행기능 훈련 게임</p>
+            </header>
+            
+            <div class="executive-game-container">
+                <div id="executiveModeScreen" class="executive-mode-select">
+                    <div class="executive-difficulty-area">
+                        <h3>난이도 선택</h3>
+                        <div class="executive-difficulty-buttons">
+                            <button class="btn btn-difficulty easy" onclick="selectExecutiveDifficulty('easy')">쉬움 (2x2)</button>
+                            <button class="btn btn-difficulty normal active" onclick="selectExecutiveDifficulty('normal')">보통 (3x3)</button>
+                            <button class="btn btn-difficulty hard" onclick="selectExecutiveDifficulty('hard')">어려움 (4x4)</button>
+                        </div>
+                    </div>
+                    
+                    <div class="executive-mode-buttons">
+                        <h3>게임 모드 선택</h3>
+                        <button class="btn btn-mode practice" onclick="selectExecutiveMode('practice')">연습 모드</button>
+                        <button class="btn btn-mode challenge" onclick="selectExecutiveMode('challenge')">도전 모드</button>
+                    </div>
+                </div>
+                
+                <div id="executiveStartScreen" class="executive-start-screen" style="display:none;">
+                    <div class="executive-selected-mode">
+                        <h2 id="executiveSelectedModeTitle"></h2>
+                        <p>조각을 순서대로 맞춰 완성된 그림을 만들어보세요!</p>
+                    </div>
+                    <div class="executive-start-buttons">
+                        <button class="btn btn-primary" onclick="startExecutiveGame()">게임 시작</button>
+                        <button class="btn btn-secondary" onclick="goToExecutiveModeSelect()">게임 선택으로</button>
+                    </div>
+                </div>
+                
+                <div id="executiveGameArea" class="executive-game-area" style="display:none;">
+                    <div class="executive-game-info">
+                        <div class="executive-round-info">
+                            <span id="executiveRound">1</span>
+                            <span class="round-unit">라운드</span>
+                        </div>
+                        <div class="executive-score-area">
+                            <span id="executiveScore">0</span>
+                            <span class="score-unit">점</span>
+                        </div>
+                        <div class="executive-time-info">
+                            <span id="executiveTime">0</span>
+                            <span class="time-unit">초</span>
+                        </div>
+                    </div>
+                    
+                    <div class="executive-puzzle-area">
+                        <div id="executivePuzzle" class="executive-puzzle">
+                            <!-- 퍼즐 조각들이 여기에 동적으로 생성됩니다 -->
+                        </div>
+                    </div>
+                    
+                    <div id="executiveResult" class="executive-result"></div>
+                    
+                    <div class="executive-controls">
+                        <button class="btn btn-secondary" onclick="goToExecutiveModeSelect()">게임 선택으로</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- 숫자 게임 화면 -->
         <div id="numberScreen" class="screen">
             <header>
@@ -493,6 +561,74 @@
                     
                     <div class="number-controls">
                         <button class="btn btn-secondary" onclick="goToNumberModeSelect()">게임 선택으로</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 빠른 반응 훈련 게임 화면 -->
+        <div id="speedScreen" class="screen">
+            <header>
+                <button class="btn btn-back" onclick="goToLanding()">← 홈으로</button>
+                <h1>⚡ 빠른 반응 훈련</h1>
+                <p class="subtitle">처리 속도 훈련 게임</p>
+            </header>
+            
+            <div class="speed-game-container">
+                <div id="speedModeScreen" class="speed-mode-select">
+                    <div class="speed-difficulty-area">
+                        <h3>난이도 선택</h3>
+                        <div class="speed-difficulty-buttons">
+                            <button class="btn btn-difficulty easy" onclick="selectSpeedDifficulty('easy')">쉬움 (3초)</button>
+                            <button class="btn btn-difficulty normal active" onclick="selectSpeedDifficulty('normal')">보통 (2초)</button>
+                            <button class="btn btn-difficulty hard" onclick="selectSpeedDifficulty('hard')">어려움 (1초)</button>
+                        </div>
+                    </div>
+                    
+                    <div class="speed-mode-buttons">
+                        <h3>게임 모드 선택</h3>
+                        <button class="btn btn-mode practice" onclick="selectSpeedMode('practice')">연습 모드</button>
+                        <button class="btn btn-mode challenge" onclick="selectSpeedMode('challenge')">도전 모드</button>
+                    </div>
+                </div>
+                
+                <div id="speedStartScreen" class="speed-start-screen" style="display:none;">
+                    <div class="speed-selected-mode">
+                        <h2 id="speedSelectedModeTitle"></h2>
+                        <p>빠르게 나타나는 그림에 즉시 반응해보세요!</p>
+                    </div>
+                    <div class="speed-start-buttons">
+                        <button class="btn btn-primary" onclick="startSpeedGame()">게임 시작</button>
+                        <button class="btn btn-secondary" onclick="goToSpeedModeSelect()">게임 선택으로</button>
+                    </div>
+                </div>
+                
+                <div id="speedGameArea" class="speed-game-area" style="display:none;">
+                    <div class="speed-game-info">
+                        <div class="speed-round-info">
+                            <span id="speedRound">1</span>
+                            <span class="round-unit">라운드</span>
+                        </div>
+                        <div class="speed-score-area">
+                            <span id="speedScore">0</span>
+                            <span class="score-unit">점</span>
+                        </div>
+                        <div class="speed-reaction-info">
+                            <span id="speedReactionTime">0</span>
+                            <span class="reaction-unit">ms</span>
+                        </div>
+                    </div>
+                    
+                    <div class="speed-target-area">
+                        <div id="speedTarget" class="speed-target" onclick="clickSpeedTarget()">
+                            <!-- 반응할 대상이 여기에 나타납니다 -->
+                        </div>
+                    </div>
+                    
+                    <div id="speedResult" class="speed-result"></div>
+                    
+                    <div class="speed-controls">
+                        <button class="btn btn-secondary" onclick="goToSpeedModeSelect()">게임 선택으로</button>
                     </div>
                 </div>
             </div>
