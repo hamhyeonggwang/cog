@@ -1320,6 +1320,24 @@ document.addEventListener('DOMContentLoaded', function() {
         selectMemoryDifficulty('normal');
         selectNumberDifficulty('normal');
         console.log('Games initialized successfully');
+        
+        // 숫자 게임 테스트
+        console.log('Number game state:', numberGameState);
+        console.log('Number difficulty map:', NUMBER_DIFFICULTY_MAP);
+        
+        // 숫자 게임 함수들이 정의되어 있는지 확인
+        if (typeof selectNumberDifficulty === 'function') {
+            console.log('✅ selectNumberDifficulty function exists');
+        } else {
+            console.error('❌ selectNumberDifficulty function missing');
+        }
+        
+        if (typeof startNumberGame === 'function') {
+            console.log('✅ startNumberGame function exists');
+        } else {
+            console.error('❌ startNumberGame function missing');
+        }
+        
     } catch (error) {
         console.error('Error initializing games:', error);
     }
