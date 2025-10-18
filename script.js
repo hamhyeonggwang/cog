@@ -125,7 +125,8 @@ function goToSpeedGame() {
 
 // 작업치료평가로 이동
 function goToAssessment() {
-    alert('작업치료평가 기능은 추후 구현 예정입니다.\n\n별도의 평가 페이지로 연결될 예정입니다.');
+    // 외부 평가 사이트로 이동
+    window.open('https://assess-git-main-starlight-papas-projects.vercel.app/', '_blank');
 }
 
 // MMSE 평가 시작
