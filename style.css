@@ -1364,7 +1364,7 @@ header h1 {
 .memory-card {
     width: 70px;
     height: 100px;
-    background: linear-gradient(135deg, #8B4513, #A0522D);
+    background: linear-gradient(135deg, #DC143C, #B22222);
     border-radius: 12px;
     display: flex;
     justify-content: center;
@@ -1385,15 +1385,7 @@ header h1 {
 }
 
 .memory-card::before {
-    content: '화투';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 1.2rem;
-    color: white;
-    font-weight: bold;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    content: '';
 }
 
 .memory-card:hover {
@@ -2256,7 +2248,7 @@ header h1 {
     }
     
     .memory-card::before {
-        font-size: 1.5rem;
+        content: '';
     }
     
     .memory-card.flipped {

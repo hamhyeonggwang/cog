@@ -14,6 +14,61 @@ let gameState = {
     hintShown: false // 힌트가 표시되었는지 여부
 };
 
+// 사운드 함수들
+function playSuccessSound() {
+    // 딩동 소리 생성 (성공 시)
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    // 딩동 소리 (도-솔)
+    oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime); // 도 (C5)
+    oscillator.frequency.setValueAtTime(783.99, audioContext.currentTime + 0.2); // 솔 (G5)
+    
+    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+    
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 0.5);
+}
+
+function playCorrectSound() {
+    // 정답 소리
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime); // 미 (E5)
+    gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+    
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 0.3);
+}
+
+function playWrongSound() {
+    // 오답 소리
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    oscillator.frequency.setValueAtTime(392.00, audioContext.currentTime); // 솔 (G4)
+    gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+    
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 0.2);
+}
+
 // 기본 속담 데이터베이스
 let proverbDatabase = [
     "가는 말이 고와야 오는 말이 곱다",
@@ -1157,6 +1212,9 @@ function switchMemoryTurn() {
 function showMemoryResult() {
     memoryGameState.isGameActive = false;
     if (memoryGameState.timerInterval) clearInterval(memoryGameState.timerInterval);
+    
+    // 딩동 소리 재생
+    playSuccessSound();
     
     const difficulty = MEMORY_DIFFICULTY_MAP[memoryGameState.currentDifficulty];
     const totalPairs = (difficulty.rows * difficulty.cols) / 2;
