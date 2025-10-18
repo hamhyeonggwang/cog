@@ -1352,7 +1352,7 @@ header h1 {
 
 .memory-game-board {
     display: grid;
-    gap: 15px;
+    gap: 12px;
     margin-bottom: 30px;
     justify-content: center;
     padding: 20px;
@@ -1362,14 +1362,14 @@ header h1 {
 }
 
 .memory-card {
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 100px;
     background: linear-gradient(135deg, #8B4513, #A0522D);
-    border-radius: 15px;
+    border-radius: 12px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     font-weight: bold;
     color: transparent;
     cursor: pointer;
@@ -2249,10 +2249,10 @@ header h1 {
     
     /* 메모리 게임 터치 최적화 */
     .memory-card {
-        width: 100px;
-        height: 100px;
+        width: 90px;
+        height: 130px;
         font-size: 1.3rem;
-        border-radius: 20px;
+        border-radius: 15px;
     }
     
     .memory-card::before {
