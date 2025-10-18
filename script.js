@@ -1056,9 +1056,22 @@ function createMemoryBoard() {
         'A1', 'A2', 'A3', 'A4', 'A5', 'A6'  // 화투패 6개
     ];
     
+    // 난이도별 사용할 심볼 수 결정
+    let symbolsToUse = [];
+    if (memoryGameState.currentDifficulty === 'easy') {
+        // 쉬움: 3개 심볼 사용 (A1, A2, A3)
+        symbolsToUse = hwatuSymbols.slice(0, 3);
+    } else if (memoryGameState.currentDifficulty === 'normal') {
+        // 보통: 4개 심볼 사용 (A1, A2, A3, A4)
+        symbolsToUse = hwatuSymbols.slice(0, 4);
+    } else if (memoryGameState.currentDifficulty === 'hard') {
+        // 어려움: 6개 심볼 사용 (A1, A2, A3, A4, A5, A6)
+        symbolsToUse = hwatuSymbols.slice(0, 6);
+    }
+    
     let hwatuSymbolsList = [];
     for (let i = 0; i < pairs; i++) {
-        const symbol = hwatuSymbols[i % hwatuSymbols.length];
+        const symbol = symbolsToUse[i % symbolsToUse.length];
         hwatuSymbolsList.push(symbol, symbol);
     }
     
