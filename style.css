@@ -1788,8 +1788,10 @@ header h1 {
 }
 
 .speed-target.hide {
-    opacity: 0;
+    opacity: 0.3;
     transform: scale(0.8);
+    background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
+    color: #666;
 }
 
 .speed-result {

@@ -1575,17 +1575,23 @@ function showSpeedTarget() {
     const symbols = ['🍂', '🍁', '🍃', '🌿', '🍀', '🌱', '🌾', '🌰'];
     const randomSymbol = symbols[Math.floor(Math.random() * symbols.length)];
     
+    // 심볼 표시
     target.textContent = randomSymbol;
     target.className = 'speed-target show';
-    target.onclick = clickSpeedTarget;
+    target.onclick = null; // 클릭 비활성화
     speedGameState.currentTarget = randomSymbol;
     speedGameState.startTime = Date.now();
     
-    // 자동으로 다음 타겟으로 넘어가기
-    speedGameState.timeoutId = setTimeout(() => {
+    // 일정 시간 후 다른 화면으로 전환
+    setTimeout(() => {
         if (speedGameState.isGameActive) {
+            // 다른 화면으로 전환 (심볼 숨기기)
+            target.textContent = '❓';
             target.className = 'speed-target hide';
-            setTimeout(() => {
+            target.onclick = clickSpeedTarget; // 이제 클릭 활성화
+            
+            // 자동으로 다음 타겟으로 넘어가기
+            speedGameState.timeoutId = setTimeout(() => {
                 if (speedGameState.isGameActive) {
                     showSpeedTarget();
                 }
