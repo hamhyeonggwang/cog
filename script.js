@@ -986,9 +986,9 @@ let memoryGameState = {
 };
 
 const MEMORY_DIFFICULTY_MAP = {
-    easy: { rows: 4, cols: 3, name: '쉬움 (4x3)' },
-    normal: { rows: 4, cols: 4, name: '보통 (4x4)' },
-    hard: { rows: 5, cols: 4, name: '어려움 (5x4)' }
+    easy: { rows: 2, cols: 2, name: '쉬움 (2x2)' },
+    normal: { rows: 3, cols: 3, name: '보통 (3x3)' },
+    hard: { rows: 3, cols: 4, name: '어려움 (3x4)' }
 };
 
 // 메모리 게임 함수들
