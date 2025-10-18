@@ -124,18 +124,8 @@ function goToSpeedGame() {
 }
 
 // 작업치료평가로 이동
-function goToAssessment(type) {
-    switch(type) {
-        case 'mmse':
-            showScreen('mmseScreen');
-            break;
-        case 'whodas':
-            showScreen('whodasScreen');
-            break;
-        case 'copm':
-            showScreen('copmScreen');
-            break;
-    }
+function goToAssessment() {
+    alert('작업치료평가 기능은 추후 구현 예정입니다.\n\n별도의 평가 페이지로 연결될 예정입니다.');
 }
 
 // MMSE 평가 시작

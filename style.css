@@ -2334,27 +2334,10 @@ header h1 {
     text-align: center;
 }
 
-.assessment-section h3 {
-    font-size: 2.5rem;
-    color: #8B4513;
-    margin-bottom: 40px;
-    font-weight: bold;
-}
-
-.assessment-cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
-    margin-bottom: 40px;
-    max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.assessment-card {
+.assessment-single-card {
     background: linear-gradient(135deg, #FFF8DC, #F5F5DC);
     border-radius: 20px;
-    padding: 30px;
+    padding: 40px;
     box-shadow: 0 8px 25px rgba(0,0,0,0.1);
     border: 3px solid rgba(210, 105, 30, 0.2);
     cursor: pointer;
@@ -2362,9 +2345,11 @@ header h1 {
     text-align: center;
     position: relative;
     overflow: hidden;
+    max-width: 500px;
+    margin: 0 auto;
 }
 
-.assessment-card::before {
+.assessment-single-card::before {
     content: '';
     position: absolute;
     top: 0;
@@ -2375,37 +2360,37 @@ header h1 {
     transition: left 0.5s;
 }
 
-.assessment-card:hover::before {
+.assessment-single-card:hover::before {
     left: 100%;
 }
 
-.assessment-card:hover {
+.assessment-single-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 12px 35px rgba(0,0,0,0.15);
     border-color: rgba(210, 105, 30, 0.4);
 }
 
-.assessment-icon {
+.assessment-single-card .assessment-icon {
     font-size: 4rem;
     margin-bottom: 20px;
     display: block;
 }
 
-.assessment-card h4 {
+.assessment-single-card h4 {
     font-size: 1.8rem;
     color: #8B4513;
     margin-bottom: 15px;
     font-weight: bold;
 }
 
-.assessment-card p {
+.assessment-single-card p {
     font-size: 1.1rem;
     color: #666;
     line-height: 1.6;
     margin-bottom: 20px;
 }
 
-.assessment-status {
+.assessment-single-card .assessment-status {
     display: inline-block;
     background: linear-gradient(135deg, #4CAF50, #45a049);
     color: white;
