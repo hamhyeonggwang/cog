@@ -3,6 +3,8 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
 }
 
 body {
@@ -15,6 +17,8 @@ body {
     position: relative;
     margin: 0;
     padding: 0;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
 }
 
 /* 가을 배경 효과 */
@@ -409,6 +413,9 @@ header h1 {
     min-width: 150px;
     touch-action: manipulation;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    user-select: none;
 }
 
 .btn:hover {
@@ -843,6 +850,25 @@ header h1 {
         font-size: 1.1rem;
         padding: 15px 30px;
         min-width: 120px;
+        min-height: 50px;
+    }
+    
+    /* 터치 영역 최적화 */
+    .game-card {
+        min-height: 120px;
+        padding: 20px;
+    }
+    
+    .answer-option {
+        min-height: 60px;
+        padding: 15px;
+        font-size: 1.1rem;
+    }
+    
+    .number-btn {
+        min-height: 60px;
+        min-width: 60px;
+        font-size: 1.2rem;
     }
     
     .question-card {
@@ -894,6 +920,25 @@ header h1 {
         font-size: 1rem;
         padding: 12px 25px;
         min-width: 100px;
+        min-height: 45px;
+    }
+    
+    /* 소형 모바일 터치 최적화 */
+    .game-card {
+        min-height: 100px;
+        padding: 15px;
+    }
+    
+    .answer-option {
+        min-height: 55px;
+        padding: 12px;
+        font-size: 1rem;
+    }
+    
+    .number-btn {
+        min-height: 55px;
+        min-width: 55px;
+        font-size: 1.1rem;
     }
     
     .question-card h2 {
