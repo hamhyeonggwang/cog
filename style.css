@@ -2323,10 +2323,162 @@ header h1 {
         margin-bottom: 40px;
     }
     
-    .kiosk-training-section h3 {
-        font-size: 2.2rem;
-        margin-bottom: 40px;
-    }
+.kiosk-training-section h3 {
+    font-size: 2.2rem;
+    margin-bottom: 40px;
+}
+
+/* 작업치료평가 섹션 스타일 */
+.assessment-section {
+    margin: 60px 0;
+    text-align: center;
+}
+
+.assessment-section h3 {
+    font-size: 2.5rem;
+    color: #8B4513;
+    margin-bottom: 40px;
+    font-weight: bold;
+}
+
+.assessment-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.assessment-card {
+    background: linear-gradient(135deg, #FFF8DC, #F5F5DC);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    border: 3px solid rgba(210, 105, 30, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.assessment-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    transition: left 0.5s;
+}
+
+.assessment-card:hover::before {
+    left: 100%;
+}
+
+.assessment-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+    border-color: rgba(210, 105, 30, 0.4);
+}
+
+.assessment-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.assessment-card h4 {
+    font-size: 1.8rem;
+    color: #8B4513;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.assessment-card p {
+    font-size: 1.1rem;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.assessment-status {
+    display: inline-block;
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+    color: white;
+    padding: 8px 20px;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+/* 평가 화면 스타일 */
+.assessment-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.assessment-info {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 40px;
+    margin-bottom: 40px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    border: 3px solid rgba(210, 105, 30, 0.2);
+}
+
+.assessment-info h3 {
+    font-size: 2rem;
+    color: #8B4513;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.assessment-info p {
+    font-size: 1.2rem;
+    color: #666;
+    line-height: 1.8;
+    margin-bottom: 30px;
+}
+
+.assessment-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background: linear-gradient(135deg, #FFF8DC, #F5F5DC);
+    border-radius: 15px;
+    border: 2px solid rgba(210, 105, 30, 0.1);
+}
+
+.detail-label {
+    font-size: 1rem;
+    color: #8B4513;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.detail-value {
+    font-size: 1.1rem;
+    color: #666;
+    text-align: center;
+    line-height: 1.4;
+}
+
+.assessment-controls {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
     
     /* 가을 낙엽 찾기 터치 최적화 */
     .attention-target {
@@ -2355,5 +2507,64 @@ header h1 {
         height: 200px;
         font-size: 8rem;
         border-radius: 30px;
+    }
+    
+    /* 작업치료평가 터치 최적화 */
+    .assessment-card {
+        padding: 40px;
+        border-radius: 25px;
+    }
+    
+    .assessment-icon {
+        font-size: 5rem;
+        margin-bottom: 25px;
+    }
+    
+    .assessment-card h4 {
+        font-size: 2rem;
+        margin-bottom: 20px;
+    }
+    
+    .assessment-card p {
+        font-size: 1.3rem;
+        line-height: 1.8;
+        margin-bottom: 25px;
+    }
+    
+    .assessment-status {
+        padding: 12px 25px;
+        font-size: 1rem;
+        border-radius: 30px;
+    }
+    
+    .assessment-info {
+        padding: 50px;
+        border-radius: 25px;
+    }
+    
+    .assessment-info h3 {
+        font-size: 2.2rem;
+        margin-bottom: 25px;
+    }
+    
+    .assessment-info p {
+        font-size: 1.4rem;
+        line-height: 2;
+        margin-bottom: 35px;
+    }
+    
+    .detail-item {
+        padding: 25px;
+        border-radius: 20px;
+    }
+    
+    .detail-label {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+    }
+    
+    .detail-value {
+        font-size: 1.3rem;
+        line-height: 1.6;
     }
 }

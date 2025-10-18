@@ -123,6 +123,36 @@ function goToSpeedGame() {
     showScreen('speedScreen');
 }
 
+// 작업치료평가로 이동
+function goToAssessment(type) {
+    switch(type) {
+        case 'mmse':
+            showScreen('mmseScreen');
+            break;
+        case 'whodas':
+            showScreen('whodasScreen');
+            break;
+        case 'copm':
+            showScreen('copmScreen');
+            break;
+    }
+}
+
+// MMSE 평가 시작
+function startMMSEAssessment() {
+    alert('MMSE 평가 기능은 추후 구현 예정입니다.\n\n평가 도구 세부내용을 추가해주세요.');
+}
+
+// WHODAS 평가 시작
+function startWHODASAssessment() {
+    alert('WHODAS 2.0 평가 기능은 추후 구현 예정입니다.\n\n평가 도구 세부내용을 추가해주세요.');
+}
+
+// COPM 평가 시작
+function startCOPMAssessment() {
+    alert('COPM 평가 기능은 추후 구현 예정입니다.\n\n평가 도구 세부내용을 추가해주세요.');
+}
+
 // 메인 화면으로 이동
 function goToMain() {
     showScreen('mainScreen');
