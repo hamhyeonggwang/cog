@@ -636,11 +636,47 @@ document.addEventListener('keydown', function(event) {
 
 // 터치 이벤트 최적화
 document.addEventListener('touchstart', function(event) {
-    // 터치 시 기본 동작 방지 (더블탭 줌 등)
-    if (event.target.tagName === 'BUTTON' || event.target.tagName === 'INPUT') {
-        event.preventDefault();
+    // 터치 이벤트가 정상적으로 작동하도록 함
+    const target = event.target;
+    
+    // 클릭 가능한 요소들에 대해 터치 이벤트 처리
+    if (target.tagName === 'BUTTON' || 
+        target.tagName === 'INPUT' || 
+        target.classList.contains('game-card') ||
+        target.classList.contains('answer-option') ||
+        target.classList.contains('number-btn') ||
+        target.classList.contains('memory-card') ||
+        target.classList.contains('attention-leaf-btn') ||
+        target.classList.contains('speed-target')) {
+        
+        // 터치 피드백을 위한 시각적 효과
+        target.style.transform = 'scale(0.95)';
+        target.style.transition = 'transform 0.1s ease';
+        
+        // 터치 종료 시 원래 크기로 복원
+        setTimeout(() => {
+            target.style.transform = 'scale(1)';
+        }, 100);
     }
-}, { passive: false });
+}, { passive: true });
+
+// 터치 종료 이벤트
+document.addEventListener('touchend', function(event) {
+    const target = event.target;
+    
+    // 터치 종료 시 원래 크기로 복원
+    if (target.tagName === 'BUTTON' || 
+        target.tagName === 'INPUT' || 
+        target.classList.contains('game-card') ||
+        target.classList.contains('answer-option') ||
+        target.classList.contains('number-btn') ||
+        target.classList.contains('memory-card') ||
+        target.classList.contains('attention-leaf-btn') ||
+        target.classList.contains('speed-target')) {
+        
+        target.style.transform = 'scale(1)';
+    }
+}, { passive: true });
 
 // 입력 필드 포커스 시 키보드 자동 올라오기 방지
 document.addEventListener('focusin', function(event) {

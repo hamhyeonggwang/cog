@@ -157,6 +157,10 @@ header h1 {
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    user-select: none;
 }
 
 .game-card:hover {
@@ -558,9 +562,11 @@ header h1 {
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     touch-action: manipulation;
     user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
 .answer-option:hover {
@@ -1372,6 +1378,8 @@ header h1 {
     border: 3px solid rgba(255,255,255,0.3);
     user-select: none;
     touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
     position: relative;
     overflow: hidden;
 }
@@ -1663,10 +1671,12 @@ header h1 {
     color: white;
     cursor: pointer;
     transition: all 0.3s ease;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     border: 3px solid rgba(255,255,255,0.3);
-    user-select: none;
-    touch-action: manipulation;
 }
 
 .number-btn:hover {
