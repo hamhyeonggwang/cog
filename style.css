@@ -2343,9 +2343,12 @@ header h1 {
 
 .assessment-cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 30px;
     margin-bottom: 40px;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .assessment-card {
@@ -2560,6 +2563,12 @@ header h1 {
     }
     
     /* 작업치료평가 터치 최적화 */
+    .assessment-cards {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+        max-width: 1000px;
+    }
+    
     .assessment-card {
         padding: 40px;
         border-radius: 25px;
