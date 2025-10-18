@@ -1051,12 +1051,9 @@ function createMemoryBoard() {
     board.innerHTML = '';
     board.style.gridTemplateColumns = `repeat(${difficulty.cols}, 1fr)`;
     
-    // 한국 화투 이미지 심볼 생성 (영문 코드)
+    // 한국 화투 이미지 심볼 생성 (영문 코드 - 6개)
     const hwatuSymbols = [
-        'A1', 'A2', 'A3',  // 광땡 (광)
-        'B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'B8', 'B9', 'B10',  // 피 (1-10)
-        'C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10',  // 띠 (1-10)
-        'D1', 'D2', 'D3', 'D4'  // 쌍피, 홍단, 청단, 초단
+        'A1', 'A2', 'A3', 'A4', 'A5', 'A6'  // 화투패 6개
     ];
     
     let hwatuSymbolsList = [];
@@ -1090,7 +1087,7 @@ function flipMemoryCard(card) {
     
     // 화투 심볼 표시 (이미지 또는 텍스트)
     const symbol = card.dataset.symbol;
-    if (symbol.startsWith('A') || symbol.startsWith('B') || symbol.startsWith('C') || symbol.startsWith('D')) {
+    if (symbol.startsWith('A')) {
         // 이미지 사용 (PNG 파일이 있는 경우)
         card.innerHTML = `<img src="./images/hwatu/${symbol}.png" alt="${symbol}" style="width: 100%; height: 100%; object-fit: contain;">`;
     } else {
