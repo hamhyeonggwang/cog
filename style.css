@@ -1794,6 +1794,41 @@ header h1 {
     color: #666;
 }
 
+.speed-target.mouse {
+    background: linear-gradient(135deg, #FF6B6B, #FF8E8E);
+    color: white;
+    animation: mousePulse 0.5s ease-in-out infinite alternate;
+}
+
+.speed-target.success {
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+    color: white;
+    animation: successPulse 0.6s ease-in-out;
+}
+
+.speed-target.fail {
+    background: linear-gradient(135deg, #e06666, #d32f2f);
+    color: white;
+    animation: failShake 0.6s ease-in-out;
+}
+
+@keyframes mousePulse {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.1); }
+}
+
+@keyframes successPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+@keyframes failShake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
 .speed-result {
     text-align: center;
     margin-bottom: 30px;

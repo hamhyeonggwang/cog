@@ -1523,13 +1523,29 @@ let speedGameState = {
     reactionTimes: [],
     currentTarget: null,
     startTime: 0,
-    timeoutId: null
+    timeoutId: null,
+    successCount: 0,
+    currentStage: 1,
+    isMouseVisible: false,
+    mouseStartTime: 0
 };
 
 const SPEED_DIFFICULTY_MAP = {
-    easy: { duration: 3000, name: '쉬움 (3초)' },
-    normal: { duration: 2000, name: '보통 (2초)' },
-    hard: { duration: 1000, name: '어려움 (1초)' }
+    easy: { 
+        leafDuration: 5000, 
+        mouseDuration: 2000, 
+        name: '쉬움 (5초/2초)' 
+    },
+    normal: { 
+        leafDuration: 3000, 
+        mouseDuration: 1000, 
+        name: '보통 (3초/1초)' 
+    },
+    hard: { 
+        leafDuration: 3000, 
+        mouseDuration: 500, 
+        name: '어려움 (3초/0.5초)' 
+    }
 };
 
 // 빠른 반응 훈련 게임 함수들
@@ -1556,6 +1572,9 @@ function startSpeedGame() {
     speedGameState.score = 0;
     speedGameState.reactionTimes = [];
     speedGameState.isGameActive = true;
+    speedGameState.successCount = 0;
+    speedGameState.currentStage = 1;
+    speedGameState.isMouseVisible = false;
     
     document.getElementById('speedScore').textContent = '0';
     document.getElementById('speedRound').textContent = '1';
@@ -1571,63 +1590,86 @@ function showSpeedTarget() {
     const target = document.getElementById('speedTarget');
     const difficulty = SPEED_DIFFICULTY_MAP[speedGameState.currentDifficulty];
     
-    // 랜덤한 가을 심볼 선택
-    const symbols = ['🍂', '🍁', '🍃', '🌿', '🍀', '🌱', '🌾', '🌰'];
-    const randomSymbol = symbols[Math.floor(Math.random() * symbols.length)];
+    // 랜덤한 낙엽 심볼 선택
+    const leafSymbols = ['🍂', '🍁', '🍃', '🌿', '🍀', '🌱', '🌾', '🌰'];
+    const randomLeaf = leafSymbols[Math.floor(Math.random() * leafSymbols.length)];
     
-    // 심볼 표시
-    target.textContent = randomSymbol;
+    // 낙엽 표시
+    target.textContent = randomLeaf;
     target.className = 'speed-target show';
     target.onclick = null; // 클릭 비활성화
-    speedGameState.currentTarget = randomSymbol;
+    speedGameState.currentTarget = randomLeaf;
+    speedGameState.isMouseVisible = false;
     speedGameState.startTime = Date.now();
     
-    // 일정 시간 후 다른 화면으로 전환
+    // 낙엽 표시 시간 후 생쥐 표시
     setTimeout(() => {
         if (speedGameState.isGameActive) {
-            // 다른 화면으로 전환 (심볼 숨기기)
-            target.textContent = '❓';
-            target.className = 'speed-target hide';
+            // 생쥐 표시
+            target.textContent = '🐭';
+            target.className = 'speed-target show mouse';
             target.onclick = clickSpeedTarget; // 이제 클릭 활성화
+            speedGameState.isMouseVisible = true;
+            speedGameState.mouseStartTime = Date.now();
             
-            // 자동으로 다음 타겟으로 넘어가기
+            // 허용 범위 시간 후 자동으로 다음으로 넘어가기
             speedGameState.timeoutId = setTimeout(() => {
                 if (speedGameState.isGameActive) {
-                    showSpeedTarget();
+                    // 시간 초과 - 실패
+                    handleSpeedResult(false);
                 }
-            }, 1000);
+            }, difficulty.mouseDuration);
         }
-    }, difficulty.duration);
+    }, difficulty.leafDuration);
 }
 
 function clickSpeedTarget() {
-    if (!speedGameState.isGameActive) return;
+    if (!speedGameState.isGameActive || !speedGameState.isMouseVisible) return;
     
     const endTime = Date.now();
-    const reactionTime = endTime - speedGameState.startTime;
+    const reactionTime = endTime - speedGameState.mouseStartTime;
     
-    speedGameState.reactionTimes.push(reactionTime);
-    speedGameState.score += Math.max(0, 1000 - reactionTime);
+    // 성공 처리
+    handleSpeedResult(true, reactionTime);
+}
+
+function handleSpeedResult(isSuccess, reactionTime = 0) {
+    if (!speedGameState.isGameActive) return;
+    
+    // 타임아웃 클리어
+    if (speedGameState.timeoutId) {
+        clearTimeout(speedGameState.timeoutId);
+    }
+    
+    const target = document.getElementById('speedTarget');
+    
+    if (isSuccess) {
+        speedGameState.successCount++;
+        speedGameState.score += 10;
+        target.textContent = '✅';
+        target.className = 'speed-target show success';
+        
+        // 3회 연속 성공시 다음 단계
+        if (speedGameState.successCount >= 3) {
+            speedGameState.currentStage++;
+            speedGameState.successCount = 0;
+            document.getElementById('speedRound').textContent = speedGameState.currentStage;
+        }
+    } else {
+        speedGameState.successCount = 0;
+        target.textContent = '❌';
+        target.className = 'speed-target show fail';
+    }
+    
     document.getElementById('speedScore').textContent = speedGameState.score;
     document.getElementById('speedReactionTime').textContent = reactionTime;
     
-    // 타겟 숨기기
-    const target = document.getElementById('speedTarget');
-    target.className = 'speed-target hide';
-    
-    // 라운드 진행 (10번 반응하면 다음 라운드)
-    if (speedGameState.reactionTimes.length >= 10) {
-        speedGameState.currentRound++;
-        speedGameState.reactionTimes = [];
-        document.getElementById('speedRound').textContent = speedGameState.currentRound;
-        
-        // 5라운드 완료시 게임 종료
-        if (speedGameState.currentRound > 5) {
-            setTimeout(() => {
-                showSpeedResult();
-            }, 1000);
-            return;
-        }
+    // 5단계 완료시 게임 종료
+    if (speedGameState.currentStage > 5) {
+        setTimeout(() => {
+            showSpeedResult();
+        }, 2000);
+        return;
     }
     
     // 다음 타겟 표시
@@ -1635,7 +1677,7 @@ function clickSpeedTarget() {
         if (speedGameState.isGameActive) {
             showSpeedTarget();
         }
-    }, 1000);
+    }, 2000);
 }
 
 function showSpeedResult() {
