@@ -690,9 +690,8 @@ document.addEventListener('keydown', function(event) {
     }
 });
 
-// 터치 이벤트 최적화
+// 터치 이벤트 최적화 (아이패드 호환)
 document.addEventListener('touchstart', function(event) {
-    // 터치 이벤트가 정상적으로 작동하도록 함
     const target = event.target;
     
     // 클릭 가능한 요소들에 대해 터치 이벤트 처리
@@ -709,12 +708,20 @@ document.addEventListener('touchstart', function(event) {
         target.style.transform = 'scale(0.95)';
         target.style.transition = 'transform 0.1s ease';
         
+        // 아이패드에서 즉시 클릭 이벤트 발생
+        const clickEvent = new MouseEvent('click', {
+            bubbles: true,
+            cancelable: true,
+            view: window
+        });
+        target.dispatchEvent(clickEvent);
+        
         // 터치 종료 시 원래 크기로 복원
         setTimeout(() => {
             target.style.transform = 'scale(1)';
         }, 100);
     }
-}, { passive: true });
+}, { passive: false });
 
 // 터치 종료 이벤트
 document.addEventListener('touchend', function(event) {
