@@ -690,11 +690,10 @@ document.addEventListener('keydown', function(event) {
     }
 });
 
-// 터치 이벤트 최적화 (아이패드 호환)
+// 터치 이벤트 최적화 (아이패드 중복 입력 방지)
 document.addEventListener('touchstart', function(event) {
     const target = event.target;
     
-    // 클릭 가능한 요소들에 대해 터치 이벤트 처리
     if (target.tagName === 'BUTTON' || 
         target.tagName === 'INPUT' || 
         target.classList.contains('game-card') ||
@@ -704,24 +703,15 @@ document.addEventListener('touchstart', function(event) {
         target.classList.contains('attention-leaf-btn') ||
         target.classList.contains('speed-target')) {
         
-        // 터치 피드백을 위한 시각적 효과
+        // 시각적 피드백만 주고, 클릭 이벤트는 브라우저 기본 처리에 맡김
         target.style.transform = 'scale(0.95)';
         target.style.transition = 'transform 0.1s ease';
         
-        // 아이패드에서 즉시 클릭 이벤트 발생
-        const clickEvent = new MouseEvent('click', {
-            bubbles: true,
-            cancelable: true,
-            view: window
-        });
-        target.dispatchEvent(clickEvent);
-        
-        // 터치 종료 시 원래 크기로 복원
         setTimeout(() => {
             target.style.transform = 'scale(1)';
         }, 100);
     }
-}, { passive: false });
+}, { passive: true });
 
 // 터치 종료 이벤트
 document.addEventListener('touchend', function(event) {
@@ -858,10 +848,14 @@ const STROOP_DIFFICULTY_MAP = {
 // Stroop 게임 함수들
 function selectStroopDifficulty(diff) {
     stroopGameState.currentDifficulty = diff;
-    // 버튼 스타일 업데이트
-    const btns = document.querySelectorAll('.btn-difficulty');
-    btns.forEach(btn => btn.classList.remove('active'));
-    document.querySelector(`.btn-difficulty.${diff}`).classList.add('active');
+    // 버튼 스타일 업데이트 (Stroop 섹션으로 스코프 제한)
+    const container = document.querySelector('.stroop-difficulty-buttons');
+    if (container) {
+        const btns = container.querySelectorAll('.btn-difficulty');
+        btns.forEach(btn => btn.classList.remove('active'));
+        const targetBtn = container.querySelector(`.btn-difficulty.${diff}`);
+        if (targetBtn) targetBtn.classList.add('active');
+    }
 }
 
 function selectStroopMode(mode) {
